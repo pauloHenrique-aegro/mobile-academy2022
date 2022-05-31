@@ -52,16 +52,19 @@ class _AuthCardState extends State<AuthCard> {
                   const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(
-                    child: Text(
-                        state is AuthSignUpState ? 'CRIAR CONTA' : 'ENTRAR'),
-                    onPressed: () {
-                      state is AuthSignUpState
-                          ? bloc.add(SignUpButtonPressed(
-                              fullName: name.text, email: email.text))
-                          : bloc.add(LoginButtonPressed(email: email.text));
-                    },
-                  ),
+                  if (state is LoadingState)
+                    const CircularProgressIndicator()
+                  else
+                    ElevatedButton(
+                      child: Text(
+                          state is AuthSignUpState ? 'CRIAR CONTA' : 'ENTRAR'),
+                      onPressed: () {
+                        state is AuthSignUpState
+                            ? bloc.add(SignUpButtonPressed(
+                                fullName: name.text, email: email.text))
+                            : bloc.add(LoginButtonPressed(email: email.text));
+                      },
+                    ),
                   TextButton(
                     child: Text(state is AuthSignUpState
                         ? 'Já possui cadastro? Entrar'
@@ -75,5 +78,12 @@ class _AuthCardState extends State<AuthCard> {
             );
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    email.dispose();
+    name.dispose();
+    super.dispose();
   }
 }

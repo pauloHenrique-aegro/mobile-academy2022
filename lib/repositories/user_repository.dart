@@ -35,7 +35,7 @@ class UserRepository {
         "accept": "application/json",
       });
 
-      //print(response.body);
+      print(response.body);
       if (response.statusCode != 200) {
         throw ApiException(json.decode(response.body)['error']);
       }
