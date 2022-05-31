@@ -1,4 +1,6 @@
-abstract class AuthState {
+import 'package:equatable/equatable.dart';
+
+abstract class AuthState extends Equatable {
   const AuthState();
 
   @override
@@ -8,3 +10,9 @@ abstract class AuthState {
 class AuthSignUpState extends AuthState {}
 
 class AuthLoginState extends AuthState {}
+
+class LoadingState extends AuthState {}
+
+class LoginSucessState extends AuthState {}
+
+class SignUpSucessState extends AuthState {}

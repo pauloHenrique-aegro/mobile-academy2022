@@ -14,29 +14,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sementes',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        appBarTheme: AppBarTheme.of(context).copyWith(
-          elevation: 0,
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.black,
-          titleTextStyle: const TextStyle(
-            fontSize: 26,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthBloc(AuthLoginState()))
+      ],
+      child: MaterialApp(
+        title: 'Sementes',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+          appBarTheme: AppBarTheme.of(context).copyWith(
+            elevation: 0,
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.black,
+            titleTextStyle: const TextStyle(
+              fontSize: 26,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
+        home: BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(AuthLoginState()),
+          child: const AuthPage(),
+        ),
+        routes: {
+          DashboardPage.routeName: (ctx) => const DashboardPage(),
+        },
       ),
-      home: BlocProvider<AuthBloc>(
-        create: (BuildContext context) => AuthBloc(AuthLoginState()),
-        child: const AuthPage(),
-      ),
-      routes: {
-        DashboardPage.routeName: (ctx) => const DashboardPage(),
-      },
     );
   }
 }

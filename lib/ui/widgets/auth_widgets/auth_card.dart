@@ -14,6 +14,9 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   late final AuthBloc bloc;
 
+  TextEditingController email = TextEditingController();
+  TextEditingController name = TextEditingController();
+
   @override
   void initState() {
     bloc = BlocProvider.of<AuthBloc>(context);
@@ -39,9 +42,11 @@ class _AuthCardState extends State<AuthCard> {
                 children: <Widget>[
                   if (state is AuthSignUpState)
                     TextFormField(
+                        controller: name,
                         decoration: const InputDecoration(labelText: 'Nome'),
                         onSaved: (value) {}),
                   TextFormField(
+                      controller: email,
                       decoration: const InputDecoration(labelText: 'E-mail'),
                       onSaved: (value) {}),
                   const SizedBox(
@@ -50,7 +55,12 @@ class _AuthCardState extends State<AuthCard> {
                   ElevatedButton(
                     child: Text(
                         state is AuthSignUpState ? 'CRIAR CONTA' : 'ENTRAR'),
-                    onPressed: null,
+                    onPressed: () {
+                      state is AuthSignUpState
+                          ? bloc.add(SignUpButtonPressed(
+                              fullName: name.text, email: email.text))
+                          : bloc.add(LoginButtonPressed(email: email.text));
+                    },
                   ),
                   TextButton(
                     child: Text(state is AuthSignUpState
