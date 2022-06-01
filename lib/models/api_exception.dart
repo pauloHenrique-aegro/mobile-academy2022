@@ -1,10 +1,7 @@
-class ApiException implements Exception {
-  final String message;
+class EmailInUse implements Exception {}
 
-  ApiException(this.message);
+class InvalidFields implements Exception {}
 
-  @override
-  String toString() {
-    return message;
-  }
-}
+class UserNotFound implements Exception {}
+
+class GenericException implements Exception {}

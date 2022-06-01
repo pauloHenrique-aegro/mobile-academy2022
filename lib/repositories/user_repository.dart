@@ -16,8 +16,11 @@ class UserRepository {
             "content-type": "application/json",
             "accept": "application/json",
           });
-      if (response.statusCode != 201) {
-        throw ApiException(json.decode(response.body)['error']);
+      var code = response.statusCode;
+      if (code == 409) {
+        throw EmailInUse();
+      } else if (code == 400) {
+        throw InvalidFields();
       }
     } catch (error) {
       rethrow;
@@ -35,9 +38,13 @@ class UserRepository {
         "accept": "application/json",
       });
 
+      var code = response.statusCode;
+      print(code);
       print(response.body);
-      if (response.statusCode != 200) {
-        throw ApiException(json.decode(response.body)['error']);
+      if (code == 404) {
+        throw UserNotFound();
+      } else if (code == 400) {
+        throw InvalidFields();
       }
     } catch (error) {
       rethrow;

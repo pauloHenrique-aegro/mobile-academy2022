@@ -2,12 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/repositories/user_repository.dart';
 import './auth_event.dart';
 import './auth_state.dart';
-import '../../models/api_exception.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _repo = UserRepository();
 
-  AuthBloc(AuthLoginState initialState) : super(AuthLoginState()) {
+  AuthBloc(AuthLoginModeState initialState) : super(AuthLoginModeState()) {
     on<SwitchAuthModeEvent>((event, emit) => emit(_switchAuthMode()));
 
     on<LoginButtonPressed>((event, emit) async {
@@ -15,8 +14,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await _repo.login(event.email);
         emit(LoginSucessState());
-      } on ApiException catch (e) {
-        emit(LoginFailureState(e.toString()));
+      } on Exception catch (e) {
+        emit(LoginFailureState(e));
       }
     });
 
@@ -25,20 +24,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await _repo.signUp(event.fullName, event.email);
         emit(SignUpSucessState());
-      } on ApiException catch (e) {
-        emit(SignUpFailureState(e.toString()));
+      } on Exception catch (e) {
+        emit(SignUpFailureState(e));
       }
     });
   }
 
   AuthState _switchAuthMode() {
     var authMode;
-    switch (state.runtimeType) {
-      case AuthSignUpState:
-        authMode = AuthLoginState();
-        break;
-      case AuthLoginState:
-        authMode = AuthSignUpState();
+    if (state.runtimeType != AuthSignUpModeState) {
+      authMode = AuthSignUpModeState();
+    } else {
+      authMode = AuthLoginModeState();
     }
     return authMode;
   }

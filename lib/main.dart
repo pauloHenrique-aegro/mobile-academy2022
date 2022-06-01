@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc(AuthLoginState()))
+        BlocProvider(create: (context) => AuthBloc(AuthLoginModeState()))
       ],
       child: MaterialApp(
         title: 'Sementes',
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: BlocProvider<AuthBloc>(
-          create: (BuildContext context) => AuthBloc(AuthLoginState()),
+          create: (BuildContext context) => AuthBloc(AuthLoginModeState()),
           child: const AuthPage(),
         ),
         routes: {
