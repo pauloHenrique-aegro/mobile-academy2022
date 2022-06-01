@@ -16,8 +16,11 @@ class UserRepository {
             "content-type": "application/json",
             "accept": "application/json",
           });
+
       var code = response.statusCode;
-      if (code == 409) {
+      print(code);
+      print(response.body);
+      if (code == 500) {
         throw EmailInUse();
       } else if (code == 400) {
         throw InvalidFields();

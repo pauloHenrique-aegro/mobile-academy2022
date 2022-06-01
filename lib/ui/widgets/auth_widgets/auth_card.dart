@@ -57,23 +57,15 @@ class _AuthCardState extends State<AuthCard> {
                 ),
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) async {
-                    if (state is LoginFailureState) {
+                    if (state is AuthFailureState) {
                       if (state.exception is UserNotFound) {
                         await showErrorDialog(
                             context, 'Usuário não encontrado!');
                       } else if (state.exception is InvalidFields) {
                         await showErrorDialog(
                             context, "Por favor, verifique os campos!");
-                      } else {
-                        await showErrorDialog(context,
-                            "Ocorreu um erro. Tente novamente mais tarde!");
-                      }
-                    } else if (state is SignUpFailureState) {
-                      if (state.exception is EmailInUse) {
+                      } else if (state.exception is EmailInUse) {
                         await showErrorDialog(context, 'Email já cadastrado!');
-                      } else if (state.exception is InvalidFields) {
-                        await showErrorDialog(
-                            context, "Por favor, verifique os campos!");
                       } else {
                         await showErrorDialog(context,
                             "Ocorreu um erro. Tente novamente mais tarde!");
