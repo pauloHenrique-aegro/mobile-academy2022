@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/models/api_exception.dart';
+import 'package:seeds_system/routes.dart';
 import '../../../blocs/auth_bloc/auth_event.dart';
 import '../show_error_dialog.dart';
 import '../../../blocs/auth_bloc/auth_bloc.dart';
@@ -70,6 +71,10 @@ class _AuthCardState extends State<AuthCard> {
                         await showErrorDialog(context,
                             "Ocorreu um erro. Tente novamente mais tarde!");
                       }
+                    }
+                    if (state is LoginSucessState) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(dashboardRoute);
                     }
                   },
                   child: state is LoadingState

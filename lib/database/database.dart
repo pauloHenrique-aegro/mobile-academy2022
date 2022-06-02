@@ -1,4 +1,4 @@
-import '../models/seeds.dart';
+import 'seeds_database_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -7,25 +7,25 @@ class SeedsDatabase {
     return openDatabase(
       join(await getDatabasesPath(), "seeds.db"),
       onCreate: (db, version) async => db.execute('CREATE TABLE seed ('
-          'id TEXT,'
-          'name TEXT,'
-          'manufacturer TEXT,'
-          'manufacturedAt TEXT,'
-          'expiresIn TEXT,'
-          'createdAt TEXT,'
-          'createdBy TEXT,'
-          'isSync INTEGER DEFAULT 0);'),
+          'id TEXT PRIMARY KEY NOT NULL,'
+          'name TEXT NOT NULL,'
+          'manufacturer TEXT NOT NULL,'
+          'manufacturedAt TEXT NOT NULL,'
+          'expiresIn TEXT NOT NULL,'
+          'createdAt TEXT NOT NULL,'
+          'createdBy TEXT NOT NULL,'
+          'isSync INTEGER NOT NULL);'),
       version: 1,
     );
   }
 
-  static Future<int> registerSeed(Seeds seed) async {
+  static Future<int> registerSeed(SeedsDatabaseModel seed) async {
     final db = await database();
     return await db.insert("seed", seed.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  static Future<int> updateSeed(Seeds seed) async {
+  static Future<int> updateSeed(SeedsDatabaseModel seed) async {
     final db = await database();
     return await db.update("seed", seed.toJson(),
         where: 'id=?',
@@ -33,14 +33,27 @@ class SeedsDatabase {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  static Future<int> deleteSeed(Seeds seed) async {
+  static Future<int> deleteSeed(SeedsDatabaseModel seed) async {
     final db = await database();
     return await db.delete("seed", where: 'id=?', whereArgs: [seed.id]);
   }
 
-  static Future<List<Seeds>> getAllSeeds() async {
+  static Future<List<SeedsDatabaseModel>> getAllSeeds() async {
     final db = await database();
     final List<Map<String, dynamic>> list = await db.query("seed");
-    return List.generate(list.length, (index) => Seeds.fromJson(list[index]));
+
+    /*return List.generate(
+        list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));*/
+    return List.generate(list.length, (index) {
+      return SeedsDatabaseModel(
+          id: list[index]['id'],
+          name: list[index]['name'],
+          manufacturer: list[index]['manufacturer'],
+          manufacturedAt: list[index]['manufacturedAt'],
+          expiresIn: list[index]['expiresIn'],
+          createdAt: list[index]['createdAt'],
+          createdBy: list[index]['createdBy'],
+          isSync: list[index]['isSync']);
+    });
   }
 }
