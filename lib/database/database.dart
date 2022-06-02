@@ -1,6 +1,7 @@
 import 'seeds_database_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import '../utils/userId_preferences.dart';
 
 class SeedsDatabase {
   static Future<Database> database() async {
@@ -40,7 +41,9 @@ class SeedsDatabase {
 
   static Future<List<SeedsDatabaseModel>> getAllSeeds() async {
     final db = await database();
-    final List<Map<String, dynamic>> list = await db.query("seed");
+    String userId = await UserIdPreferences().getExternalUserId();
+    final List<Map<String, dynamic>> list =
+        await db.query("seed", where: 'createdBy = ?', whereArgs: [userId]);
 
     /*return List.generate(
         list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));*/

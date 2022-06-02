@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import '../models/api_exception.dart';
+import '../utils/userId_preferences.dart';
 
 class UserRepository {
+  late String _externalId;
+
   Future<void> signUp(String fullName, String email) async {
     String id = const Uuid().v4().toString();
     var url = Uri.parse(
@@ -18,6 +22,7 @@ class UserRepository {
           });
 
       var code = response.statusCode;
+
       print(code);
       print(response.body);
       if (code == 500) {
@@ -41,6 +46,10 @@ class UserRepository {
         "accept": "application/json",
       });
 
+      final responseData = json.decode(response.body);
+      _externalId = responseData['id'];
+      print(_externalId);
+      await UserIdPreferences().setExternalUserId(_externalId);
       var code = response.statusCode;
       print(code);
       print(response.body);

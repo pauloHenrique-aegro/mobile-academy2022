@@ -63,39 +63,43 @@ class _PostSeedsState extends State<PostSeeds> {
         child: BlocBuilder<SeedsBloc, SeedsStates>(
             bloc: bloc,
             builder: (context, state) {
-              return Column(
-                children: <Widget>[
-                  TextFormField(
-                    controller: name,
-                    decoration:
-                        const InputDecoration(labelText: "Nome da semente"),
-                  ),
-                  TextFormField(
-                    controller: manufacturer,
-                    decoration: const InputDecoration(labelText: "Fabricante"),
-                  ),
-                  TextFormField(
-                    controller: manufacturedAt,
-                    decoration:
-                        const InputDecoration(labelText: "Data de fabricação"),
-                  ),
-                  TextFormField(
-                    controller: expiresIn,
-                    decoration:
-                        const InputDecoration(labelText: "Data de validade"),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        bloc.add(RegisterSeedEvent(Seeds(
-                            name: name.text,
-                            manufacturer: manufacturer.text,
-                            manufacturedAt: manufacturedAt.text,
-                            expiresIn: expiresIn.text)));
-                        Navigator.of(context)
-                            .pushReplacementNamed(dashboardRoute);
-                      },
-                      child: const Text("Salvar"))
-                ],
+              return Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      controller: name,
+                      decoration:
+                          const InputDecoration(labelText: "Nome da semente"),
+                    ),
+                    TextFormField(
+                      controller: manufacturer,
+                      decoration:
+                          const InputDecoration(labelText: "Fabricante"),
+                    ),
+                    TextFormField(
+                      controller: manufacturedAt,
+                      decoration: const InputDecoration(
+                          labelText: "Data de fabricação"),
+                    ),
+                    TextFormField(
+                      controller: expiresIn,
+                      decoration:
+                          const InputDecoration(labelText: "Data de validade"),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          bloc.add(RegisterSeedEvent(Seeds(
+                              name: name.text,
+                              manufacturer: manufacturer.text,
+                              manufacturedAt: manufacturedAt.text,
+                              expiresIn: expiresIn.text)));
+                          Navigator.of(context)
+                              .pushReplacementNamed(dashboardRoute);
+                        },
+                        child: const Text("Salvar"))
+                  ],
+                ),
               );
             }),
       ),
