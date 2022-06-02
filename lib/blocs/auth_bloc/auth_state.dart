@@ -11,7 +11,7 @@ class AuthSignUpModeState extends AuthState {}
 
 class AuthLoginModeState extends AuthState {}
 
-class LoadingState extends AuthState {}
+class LoadingAuthState extends AuthState {}
 
 class LoginSucessState extends AuthState {}
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds_system/database/seeds_database_model.dart';
 import 'package:seeds_system/routes.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
@@ -103,19 +102,30 @@ class _DashboardPageState extends State<DashboardPage> {
                   } else if (state is SomeSeedsState) {
                     final seedsList = state.seeds;
                     return ListView.separated(
+                      padding: const EdgeInsets.all(9),
                       itemCount: seedsList.length,
-                      itemBuilder: (context, index) => ListTile(
-                        title: Text(seedsList[index].name),
-                        subtitle: Text(
-                            "Dias para germinação: ${seedsList[index].manufacturer.toString()}"),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.remove),
-                          onPressed: () {
-                            bloc.add(DeleteSeedEvent(seedsList[index]));
-                          },
+                      itemBuilder: (context, index) => Container(
+                        height: 150,
+                        child: Card(
+                          elevation: 8,
+                          child: ListTile(
+                            onTap: () {
+                              // TODO: NAVIGATION TO DETAIL SCREEN
+                            },
+                            title: Text(seedsList[index].name),
+                            subtitle: Text(
+                                "Dias para germinação: ${seedsList[index].manufacturer.toString()}"),
+                            isThreeLine: true,
+                            trailing: IconButton(
+                              icon: const Icon(Icons.remove),
+                              onPressed: () {
+                                bloc.add(DeleteSeedEvent(seedsList[index]));
+                              },
+                            ),
+                          ),
                         ),
                       ),
-                      separatorBuilder: (_, __) => const Divider(),
+                      separatorBuilder: (context, index) => const Divider(),
                     );
                   }
                   return Container();

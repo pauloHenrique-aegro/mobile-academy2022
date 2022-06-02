@@ -10,7 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SwitchAuthModeEvent>((event, emit) => emit(_switchAuthMode()));
 
     on<LoginButtonPressed>((event, emit) async {
-      emit(LoadingState());
+      emit(LoadingAuthState());
       try {
         await _repo.login(event.email);
         emit(LoginSucessState());
@@ -20,7 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<SignUpButtonPressed>((event, emit) async {
-      emit(LoadingState());
+      emit(LoadingAuthState());
       try {
         await _repo.signUp(event.fullName, event.email);
         emit(SignUpSucessState());

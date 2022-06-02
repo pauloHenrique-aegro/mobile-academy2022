@@ -18,17 +18,19 @@ class SeedsDatabaseModel {
       required this.createdBy,
       required this.isSync});
 
-  factory SeedsDatabaseModel.fromJson(Map<String, dynamic> json) =>
-      SeedsDatabaseModel(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        manufacturer: json['manufacturer'] as String,
-        manufacturedAt: json['manufacturedAt'] as String,
-        expiresIn: json['expiresIn'] as String,
-        createdAt: json['createdAt'] as String,
-        createdBy: json['createBy'] as String,
-        isSync: json['isSync'] as int,
-      );
+  factory SeedsDatabaseModel.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return SeedsDatabaseModel(
+      id: json['id'],
+      name: json['name'],
+      manufacturer: json['manufacturer'],
+      manufacturedAt: json['manufacturedAt'],
+      expiresIn: json['expiresIn'],
+      createdAt: json['createdAt'],
+      createdBy: json['createdBy'],
+      isSync: json['isSync'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,

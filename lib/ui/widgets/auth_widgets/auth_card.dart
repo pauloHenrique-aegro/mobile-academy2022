@@ -77,7 +77,7 @@ class _AuthCardState extends State<AuthCard> {
                           .pushReplacementNamed(dashboardRoute);
                     }
                   },
-                  child: state is LoadingState
+                  child: state is LoadingAuthState
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
                           child: Text(state is AuthSignUpModeState

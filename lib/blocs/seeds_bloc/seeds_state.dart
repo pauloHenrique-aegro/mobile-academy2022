@@ -6,6 +6,10 @@ class SeedsStates {
   SeedsStates(this.seeds);
 }
 
+class LoadingSeedsState extends SeedsStates {
+  LoadingSeedsState() : super([]);
+}
+
 class EmptySeedsState extends SeedsStates {
   EmptySeedsState() : super([]);
 }

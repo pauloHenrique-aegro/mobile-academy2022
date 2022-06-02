@@ -6,8 +6,8 @@ import '../utils/userId_preferences.dart';
 class SeedsDatabase {
   static Future<Database> database() async {
     return openDatabase(
-      join(await getDatabasesPath(), "seeds.db"),
-      onCreate: (db, version) async => db.execute('CREATE TABLE seed ('
+      join(await getDatabasesPath(), "seeds_system.db"),
+      onCreate: (db, version) async => db.execute('CREATE TABLE seeds ('
           'id TEXT PRIMARY KEY NOT NULL,'
           'name TEXT NOT NULL,'
           'manufacturer TEXT NOT NULL,'
@@ -22,13 +22,13 @@ class SeedsDatabase {
 
   static Future<int> registerSeed(SeedsDatabaseModel seed) async {
     final db = await database();
-    return await db.insert("seed", seed.toJson(),
+    return await db.insert("seeds", seed.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   static Future<int> updateSeed(SeedsDatabaseModel seed) async {
     final db = await database();
-    return await db.update("seed", seed.toJson(),
+    return await db.update("seeds", seed.toJson(),
         where: 'id=?',
         whereArgs: [seed.id],
         conflictAlgorithm: ConflictAlgorithm.replace);
@@ -36,27 +36,15 @@ class SeedsDatabase {
 
   static Future<int> deleteSeed(SeedsDatabaseModel seed) async {
     final db = await database();
-    return await db.delete("seed", where: 'id=?', whereArgs: [seed.id]);
+    return await db.delete("seeds", where: 'id=?', whereArgs: [seed.id]);
   }
 
   static Future<List<SeedsDatabaseModel>> getAllSeeds() async {
     final db = await database();
     String userId = await UserIdPreferences().getExternalUserId();
     final List<Map<String, dynamic>> list =
-        await db.query("seed", where: 'createdBy = ?', whereArgs: [userId]);
-
-    /*return List.generate(
-        list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));*/
-    return List.generate(list.length, (index) {
-      return SeedsDatabaseModel(
-          id: list[index]['id'],
-          name: list[index]['name'],
-          manufacturer: list[index]['manufacturer'],
-          manufacturedAt: list[index]['manufacturedAt'],
-          expiresIn: list[index]['expiresIn'],
-          createdAt: list[index]['createdAt'],
-          createdBy: list[index]['createdBy'],
-          isSync: list[index]['isSync']);
-    });
+        await db.query("seeds", where: 'createdBy = ?', whereArgs: [userId]);
+    return List.generate(
+        list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
   }
 }

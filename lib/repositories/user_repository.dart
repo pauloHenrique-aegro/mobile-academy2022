@@ -6,8 +6,6 @@ import '../models/api_exception.dart';
 import '../utils/userId_preferences.dart';
 
 class UserRepository {
-  late String _externalId;
-
   Future<void> signUp(String fullName, String email) async {
     String id = const Uuid().v4().toString();
     var url = Uri.parse(
@@ -22,9 +20,6 @@ class UserRepository {
           });
 
       var code = response.statusCode;
-
-      print(code);
-      print(response.body);
       if (code == 500) {
         throw EmailInUse();
       } else if (code == 400) {
@@ -46,13 +41,15 @@ class UserRepository {
         "accept": "application/json",
       });
 
-      final responseData = json.decode(response.body);
-      _externalId = responseData['id'];
-      print(_externalId);
-      await UserIdPreferences().setExternalUserId(_externalId);
       var code = response.statusCode;
-      print(code);
-      print(response.body);
+
+      final responseData = json.decode(response.body);
+
+      if (responseData['id'] != null) {
+        var _externalId = responseData['id'];
+        await UserIdPreferences().setExternalUserId(_externalId);
+      }
+
       if (code == 404) {
         throw UserNotFound();
       } else if (code == 400) {
