@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/database/seeds_database_model.dart';
+import 'package:seeds_system/ui/widgets/seeds_widgets/show_modal_bottom.dart';
 import '../../routes.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
@@ -24,19 +25,6 @@ class _DashboardPageState extends State<DashboardPage> {
     bloc = SeedsBloc();
     bloc.add(LoadApiSeedsEvent());
     bloc.add(LoadSeedsEvent());
-  }
-
-  void _startAddNewSeeds(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: const PostSeeds(),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
   }
 
   @override
@@ -71,7 +59,7 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         drawer: const MenuDrawerWidget(),
         floatingActionButton: FloatingActionButton(
-            onPressed: () => _startAddNewSeeds(context),
+            onPressed: () => showModalBottom(context, const PostSeeds()),
             child: const Icon(Icons.add)),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: Stack(
