@@ -21,14 +21,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthBloc(AuthLoginModeState()))
       ],
       child: MaterialApp(
-        title: 'Sementes',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.green,
           appBarTheme: AppBarTheme.of(context).copyWith(
             elevation: 0,
             backgroundColor: Colors.green,
-            foregroundColor: Colors.black,
+            foregroundColor: Colors.white,
             titleTextStyle: const TextStyle(
               fontSize: 26,
               color: Colors.black,
@@ -41,6 +40,7 @@ class MyApp extends StatelessWidget {
           child: const AuthPage(),
         ),
         routes: {
+          authScreenRoute: (ctx) => const AuthPage(),
           dashboardRoute: (ctx) => const DashboardPage(),
           postSeedsRoute: (ctx) => const PostSeeds(),
         },

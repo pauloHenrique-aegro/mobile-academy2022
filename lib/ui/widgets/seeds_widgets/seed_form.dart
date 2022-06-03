@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SeedsForm extends StatefulWidget {
-  const SeedsForm({Key? key}) : super(key: key);
+class SeedsFormWidget extends StatefulWidget {
+  const SeedsFormWidget({Key? key}) : super(key: key);
 
   @override
-  State<SeedsForm> createState() => _SeedsFormState();
+  State<SeedsFormWidget> createState() => _SeedsFormWidgetState();
 }
 
-class _SeedsFormState extends State<SeedsForm> {
+class _SeedsFormWidgetState extends State<SeedsFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Container();

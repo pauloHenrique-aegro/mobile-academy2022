@@ -8,7 +8,7 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
 
   SeedsBloc() : super(EmptySeedsState()) {
     on<LoadSeedsEvent>((event, emit) async {
-      emit(EmptySeedsState());
+      emit(LoadingSeedsState());
       await Future.delayed(const Duration(seconds: 1));
       await _repo.getSeedsList().then((seeds) => emit(SomeSeedsState(seeds)));
     });

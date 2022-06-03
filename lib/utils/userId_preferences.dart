@@ -12,4 +12,18 @@ class UserIdPreferences {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_key)!;
   }
+
+  Future<bool> containsPreferencesKey() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(_key)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future prefsClear() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/routes.dart';
+import 'package:intl/intl.dart';
+import '../../routes.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_state.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
@@ -18,6 +19,25 @@ class _PostSeedsState extends State<PostSeeds> {
   TextEditingController manufacturer = TextEditingController();
   TextEditingController manufacturedAt = TextEditingController();
   TextEditingController expiresIn = TextEditingController();
+  DateTime? _selectedDate;
+
+  void _manufacturedAtDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+  }
+
+  void _expiresInDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+  }
 
   late final SeedsBloc bloc;
 
@@ -77,15 +97,53 @@ class _PostSeedsState extends State<PostSeeds> {
                       decoration:
                           const InputDecoration(labelText: "Fabricante"),
                     ),
-                    TextFormField(
-                      controller: manufacturedAt,
-                      decoration: const InputDecoration(
-                          labelText: "Data de fabricação"),
+                    Container(
+                      height: 70,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              _selectedDate == null
+                                  ? 'No Date Chosen!'
+                                  : 'Data de Fabricação: ${DateFormat.yMd().format(_selectedDate!)}',
+                            ),
+                          ),
+                          FlatButton(
+                            textColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              'Insira a data',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _manufacturedAtDatePicker,
+                          ),
+                        ],
+                      ),
                     ),
-                    TextFormField(
-                      controller: expiresIn,
-                      decoration:
-                          const InputDecoration(labelText: "Data de validade"),
+                    Container(
+                      height: 70,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              _selectedDate == null
+                                  ? 'No Date Chosen!'
+                                  : 'Data de vencimento: ${DateFormat.yMd().format(_selectedDate!)}',
+                            ),
+                          ),
+                          FlatButton(
+                            textColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              'Insira a data',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _manufacturedAtDatePicker,
+                          ),
+                        ],
+                      ),
                     ),
                     ElevatedButton(
                         onPressed: () {

@@ -34,7 +34,7 @@ class AuthPage extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     flex: screenSize.width > 600 ? 2 : 1,
-                    child: const AuthCard(),
+                    child: const AuthCardWidget(),
                   ),
                 ],
               ),

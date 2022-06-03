@@ -7,14 +7,14 @@ import '../show_error_dialog.dart';
 import '../../../blocs/auth_bloc/auth_bloc.dart';
 import '../../../blocs/auth_bloc/auth_state.dart';
 
-class AuthCard extends StatefulWidget {
-  const AuthCard({Key? key}) : super(key: key);
+class AuthCardWidget extends StatefulWidget {
+  const AuthCardWidget({Key? key}) : super(key: key);
 
   @override
-  State<AuthCard> createState() => _AuthCardState();
+  State<AuthCardWidget> createState() => _AuthCardWidgetState();
 }
 
-class _AuthCardState extends State<AuthCard> {
+class _AuthCardWidgetState extends State<AuthCardWidget> {
   late final AuthBloc bloc;
 
   TextEditingController email = TextEditingController();

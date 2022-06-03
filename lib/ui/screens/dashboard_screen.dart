@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds_system/routes.dart';
+import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
 import '../../blocs/seeds_bloc/seeds_state.dart';
@@ -26,76 +27,36 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.add_box,
-              ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(postSeedsRoute);
-              },
-            ),
-          ],
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.green.shade400,
+          actions: [],
           title: Container(
             width: double.infinity,
             height: 45,
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: TextField(
-              textAlign: TextAlign.start,
+              textAlignVertical: TextAlignVertical.bottom,
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: "Pesquisar",
-                fillColor: Colors.white,
+                hintText: "Pesquisar",
+                fillColor: Colors.white70,
                 filled: true,
-                suffixIcon: const Icon(Icons.search),
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.green,
+                ),
               ),
             ),
           ),
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 100,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(0, 140, 49, 1),
-                  ),
-                  child: Text('Seja bem vindo, Nome do usuário!'),
-                ),
-              ),
-              ListTile(
-                title: const Text('Sementes'),
-                onTap: () {},
-              ),
-              ListTile(
-                title: const Text('Sincronizar'),
-                onTap: () {},
-              ),
-            ],
-          ),
-        ),
+        drawer: const MenuDrawerWidget(),
         body: Stack(
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color.fromRGBO(255, 255, 255, 255).withOpacity(0.5),
-                    const Color.fromRGBO(0, 140, 49, 1).withOpacity(0.9),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: const [0, 1],
-                ),
-              ),
-            ),
             BlocBuilder<SeedsBloc, SeedsStates>(
                 bloc: bloc,
                 builder: (context, state) {
-                  if (state is EmptySeedsState) {
+                  if (state is LoadingSeedsState) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -104,25 +65,39 @@ class _DashboardPageState extends State<DashboardPage> {
                     return ListView.separated(
                       padding: const EdgeInsets.all(9),
                       itemCount: seedsList.length,
-                      itemBuilder: (context, index) => Container(
-                        height: 150,
-                        child: Card(
-                          elevation: 8,
-                          child: ListTile(
-                            onTap: () {
-                              // TODO: NAVIGATION TO DETAIL SCREEN
-                            },
-                            title: Text(seedsList[index].name),
-                            subtitle: Text(
-                                "Dias para germinação: ${seedsList[index].manufacturer.toString()}"),
-                            isThreeLine: true,
-                            trailing: IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                bloc.add(DeleteSeedEvent(seedsList[index]));
-                              },
-                            ),
-                          ),
+                      itemBuilder: (context, index) => Card(
+                        elevation: 8,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                ListTile(
+                                  onTap: () {
+                                    // TODO: NAVIGATION TO DETAIL SCREEN
+                                  },
+                                  onLongPress: () {
+                                    print("alo");
+                                  },
+                                  title: Text(seedsList[index].name),
+                                  subtitle: Text(
+                                      "Fabricante: ${seedsList[index].manufacturer.toString()}"),
+                                  isThreeLine: true,
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.delete_forever),
+                                    onPressed: () {
+                                      bloc.add(
+                                          DeleteSeedEvent(seedsList[index]));
+                                    },
+                                  ),
+                                ),
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(),
+                                  onPressed: () {},
+                                  label: const Text("Dado não sincronizado!"),
+                                  icon: const Icon(Icons.sync_disabled_rounded),
+                                )
+                              ]),
                         ),
                       ),
                       separatorBuilder: (context, index) => const Divider(),
