@@ -57,7 +57,7 @@ class SeedsDatabase {
       {required String name}) async {
     final db = await database();
     final List<Map<String, dynamic>> list =
-        await db.rawQuery('SELECT * FROM seeds WHERE name = "$name"');
+        await db.rawQuery("SELECT * FROM seeds WHERE name LIKE '$name%'");
     return List.generate(
         list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
   }

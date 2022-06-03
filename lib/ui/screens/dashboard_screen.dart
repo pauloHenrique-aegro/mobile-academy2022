@@ -40,9 +40,7 @@ class _DashboardPageState extends State<DashboardPage> {
             height: 45,
             padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: TextField(
-              onChanged: (value) => bloc.add(LoadSeedsEvent()),
-              onSubmitted: (text) => bloc.add(LoadSearchEvent(query: text)),
-              //onEditingComplete: (text) => bloc.add(event)
+              onChanged: (text) => bloc.add(LoadSearchEvent(query: text)),
               textAlignVertical: TextAlignVertical.bottom,
               decoration: InputDecoration(
                 border:

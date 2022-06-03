@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   AuthState _switchAuthMode() {
-    var authMode;
+    AuthState authMode;
     if (state.runtimeType != AuthSignUpModeState) {
       authMode = AuthSignUpModeState();
     } else {
