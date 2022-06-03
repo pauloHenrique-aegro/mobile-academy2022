@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../routes.dart';
-import '../../blocs/seeds_bloc/seeds_bloc.dart';
-import '../../blocs/seeds_bloc/seeds_state.dart';
-import '../../blocs/seeds_bloc/seeds_event.dart';
-import '../../models/seeds.dart';
+import '../../../routes.dart';
+import '../../../blocs/seeds_bloc/seeds_bloc.dart';
+import '../../../blocs/seeds_bloc/seeds_state.dart';
+import '../../../blocs/seeds_bloc/seeds_event.dart';
+import '../../../models/seeds.dart';
 
 class PostSeeds extends StatefulWidget {
   const PostSeeds({Key? key}) : super(key: key);
@@ -17,17 +17,15 @@ class PostSeeds extends StatefulWidget {
 class _PostSeedsState extends State<PostSeeds> {
   TextEditingController name = TextEditingController();
   TextEditingController manufacturer = TextEditingController();
-  TextEditingController manufacturedAt = TextEditingController();
-  TextEditingController expiresIn = TextEditingController();
   DateTime? _manufacturedAt;
   DateTime? _expiresIn;
-  final localDateFormat = DateFormat('dd-MM-yyyy');
+  final applicationDateFormat = DateFormat('dd-MM-yyyy');
 
   void _manufacturedAtDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
+      firstDate: DateTime(2010),
       lastDate: DateTime.now(),
     ).then((manufacturedAtPickedDate) {
       if (manufacturedAtPickedDate == null) {
@@ -97,7 +95,7 @@ class _PostSeedsState extends State<PostSeeds> {
                           child: Text(
                             _manufacturedAt == null
                                 ? 'Data de Fabricação'
-                                : 'Data de Fabricação: ${localDateFormat.format(_manufacturedAt!)}',
+                                : 'Data de Fabricação: ${applicationDateFormat.format(_manufacturedAt!)}',
                           ),
                         ),
                         OutlinedButton(
@@ -120,7 +118,7 @@ class _PostSeedsState extends State<PostSeeds> {
                           child: Text(
                             _expiresIn == null
                                 ? 'Data de vencimento'
-                                : 'Data de vencimento: ${localDateFormat.format(_expiresIn!)}',
+                                : 'Data de vencimento: ${applicationDateFormat.format(_expiresIn!)}',
                           ),
                         ),
                         OutlinedButton(
@@ -142,8 +140,8 @@ class _PostSeedsState extends State<PostSeeds> {
                         bloc.add(RegisterSeedEvent(Seeds(
                             name: name.text,
                             manufacturer: manufacturer.text,
-                            manufacturedAt: manufacturedAt.text,
-                            expiresIn: expiresIn.text)));
+                            manufacturedAt: _manufacturedAt!,
+                            expiresIn: _expiresIn!)));
                         Navigator.of(context)
                             .pushReplacementNamed(dashboardRoute);
                       },

@@ -1,8 +1,8 @@
 class Seeds {
   String name;
   String manufacturer;
-  String manufacturedAt;
-  String expiresIn;
+  DateTime manufacturedAt;
+  DateTime expiresIn;
 
   Seeds({
     required this.name,

@@ -3,8 +3,10 @@ import '../database/seeds_database_model.dart';
 import '../models/seeds.dart';
 import 'package:uuid/uuid.dart';
 import '../utils/userId_preferences.dart';
+import 'package:intl/intl.dart';
 
 class SeedsRepository {
+  final dateFormat = DateFormat('yyyy-MM-dd');
   List<SeedsDatabaseModel> list = [];
 
   Future<List<SeedsDatabaseModel>> getSeedsList() async {
@@ -20,9 +22,9 @@ class SeedsRepository {
         id: id,
         name: seed.name,
         manufacturer: seed.manufacturer,
-        manufacturedAt: seed.manufacturedAt,
-        expiresIn: seed.expiresIn,
-        createdAt: DateTime.now().toString(),
+        manufacturedAt: dateFormat.format(seed.manufacturedAt).toString(),
+        expiresIn: dateFormat.format(seed.expiresIn).toString(),
+        createdAt: DateTime.now().toIso8601String(),
         createdBy: userId,
         isSync: 0));
     return list;

@@ -5,7 +5,7 @@ import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
 import '../../blocs/seeds_bloc/seeds_state.dart';
-import '../screens/post_seeds_screen.dart';
+import '../widgets/seeds_widgets/modal_bottom_sheet_form.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -65,6 +65,10 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
         drawer: const MenuDrawerWidget(),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => _startAddNewSeeds(context),
+            child: const Icon(Icons.add)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: Stack(
           children: <Widget>[
             BlocBuilder<SeedsBloc, SeedsStates>(
@@ -119,7 +123,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   }
                   return Container();
                 }),
-            FloatingActionButton(onPressed: () => _startAddNewSeeds(context)),
           ],
         ));
   }
