@@ -1,8 +1,11 @@
 import 'package:seeds_system/database/seeds_database_model.dart';
+import 'package:seeds_system/network/seeds_api_model.dart';
 
 import '../../models/seeds.dart';
 
-abstract class SeedsEvents {}
+abstract class SeedsEvents {
+  SeedsEvents();
+}
 
 class LoadSeedsEvent extends SeedsEvents {}
 
@@ -17,3 +20,11 @@ class DeleteSeedEvent extends SeedsEvents {
 
   DeleteSeedEvent(this.seed);
 }
+
+class SyncSeedEvent extends SeedsEvents {
+  SeedsDatabaseModel seed;
+
+  SyncSeedEvent(this.seed);
+}
+
+class LoadApiSeedsEvent extends SeedsEvents {}

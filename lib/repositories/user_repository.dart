@@ -45,7 +45,7 @@ class UserRepository {
       var code = response.statusCode;
 
       final responseData = json.decode(response.body);
-      print(response.body);
+      print(responseData);
       if (responseData['id'] != null) {
         _externalId = responseData['id'];
         await UserIdPreferences().setExternalUserId(_externalId);

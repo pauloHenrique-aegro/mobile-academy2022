@@ -47,4 +47,9 @@ class SeedsDatabase {
     return List.generate(
         list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
   }
+
+  static Future<void> updateSyncFlag({required SeedsDatabaseModel seed}) async {
+    final db = await database();
+    await db.rawUpdate('UPDATE seeds SET isSync = 1 WHERE id = "${seed.id}"');
+  }
 }

@@ -19,6 +19,21 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
           .then((seeds) => emit(SomeSeedsState(seeds)));
     });
 
+    on<SyncSeedEvent>((event, emit) async {
+      await Future.delayed(const Duration(seconds: 1));
+      try {
+        await _repo.syncSeeds(event.seed);
+        await _repo.updateSyncFlag(event.seed);
+        print(state.runtimeType);
+      } on Exception catch (e) {
+        emit(SyncSeedsFailureState(e));
+      }
+    });
+
+    on<LoadApiSeedsEvent>((event, emit) async {
+      await _repo.saveSeedsFromApi();
+    });
+
     /*on<DeleteSeedEvent>(
         (event, emit) => emit(SomeSeedsState(_repo.deleteSeeds(event.seed))));*/
   }

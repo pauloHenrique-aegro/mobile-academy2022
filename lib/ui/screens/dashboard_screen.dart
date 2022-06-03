@@ -21,6 +21,7 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     super.initState();
     bloc = SeedsBloc();
+    bloc.add(LoadApiSeedsEvent());
     bloc.add(LoadSeedsEvent());
   }
 
@@ -109,12 +110,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                     },
                                   ),
                                 ),
-                                ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(),
-                                  onPressed: () {},
-                                  label: const Text("Dado não sincronizado!"),
-                                  icon: const Icon(Icons.sync_disabled_rounded),
-                                )
                               ]),
                         ),
                       ),

@@ -18,7 +18,12 @@ class SomeSeedsState extends SeedsStates {
   SomeSeedsState(List<SeedsDatabaseModel> seeds) : super(seeds);
 }
 
+class SyncSeedsFailureState extends SeedsStates {
+  final Exception exception;
+  SyncSeedsFailureState(this.exception) : super([]);
+}
+
 class GetSeedsFailureState extends SeedsStates {
-  final String message;
-  GetSeedsFailureState(this.message) : super([]);
+  final Exception exception;
+  GetSeedsFailureState(this.exception) : super([]);
 }

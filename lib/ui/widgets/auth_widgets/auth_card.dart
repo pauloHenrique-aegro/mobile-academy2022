@@ -36,7 +36,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
       ),
       elevation: 8.0,
       child: BlocBuilder<AuthBloc, AuthState>(
-        bloc: BlocProvider.of<AuthBloc>(context),
+        bloc: bloc,
         builder: (context, state) {
           return Container(
             height: state is AuthSignUpModeState ? 280 : 220,

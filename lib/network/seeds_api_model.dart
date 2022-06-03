@@ -1,33 +1,30 @@
-class SeedsDatabaseModel {
+class SeedsApiModel {
   String id;
   String name;
   String manufacturer;
   String manufacturedAt;
   String expiresIn;
   String createdAt;
-  String createdBy;
-  int? isSync;
+  String userId;
 
-  SeedsDatabaseModel(
+  SeedsApiModel(
       {required this.id,
       required this.name,
       required this.manufacturer,
       required this.manufacturedAt,
       required this.expiresIn,
       required this.createdAt,
-      required this.createdBy,
-      required this.isSync});
+      required this.userId});
 
-  factory SeedsDatabaseModel.fromJson(Map<String, dynamic> json) {
-    return SeedsDatabaseModel(
+  factory SeedsApiModel.fromJson(Map<String, dynamic> json) {
+    return SeedsApiModel(
       id: json['id'],
       name: json['name'],
       manufacturer: json['manufacturer'],
       manufacturedAt: json['manufacturedAt'],
       expiresIn: json['expiresIn'],
       createdAt: json['createdAt'],
-      createdBy: json['createdBy'],
-      isSync: json['isSync'],
+      userId: json['userId'],
     );
   }
 
@@ -38,7 +35,6 @@ class SeedsDatabaseModel {
         'manufacturedAt': manufacturedAt,
         'expiresIn': expiresIn,
         'createdAt': createdAt,
-        'createdBy': createdBy,
-        'isSync': isSync,
+        'userId': userId,
       };
 }
