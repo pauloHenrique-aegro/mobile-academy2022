@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
 import '../../../routes.dart';
 import '../../../utils/userId_preferences.dart';
+import 'package:seeds_system/ui/widgets/seeds_widgets/show_modal_bottom.dart';
 
 class MenuDrawerWidget extends StatelessWidget {
   const MenuDrawerWidget({Key? key}) : super(key: key);
@@ -28,13 +30,10 @@ class MenuDrawerWidget extends StatelessWidget {
                   const SizedBox(height: 12),
                   const SizedBox(height: 24),
                   buildMenuItem(
-                    text: 'Cadastro de Sementes',
-                    icon: Icons.add_box_outlined,
-                    onClicked: () async {
-                      Navigator.of(context).pushNamed(postSeedsRoute);
-                      _clearExternalId;
-                    },
-                  ),
+                      text: 'Cadastro de Sementes',
+                      icon: Icons.add_box_outlined,
+                      onClicked: () =>
+                          showModalBottom(context, const PostSeeds())),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'Sincronizar sementes',
@@ -45,7 +44,8 @@ class MenuDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Logout',
                     icon: Icons.logout_rounded,
-                    onClicked: () {
+                    onClicked: () async {
+                      _clearExternalId;
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           authScreenRoute, (route) => false);
                     },

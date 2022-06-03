@@ -79,17 +79,21 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                   },
                   child: state is LoadingAuthState
                       ? const CircularProgressIndicator()
-                      : ElevatedButton(
-                          child: Text(state is AuthSignUpModeState
-                              ? 'CRIAR CONTA'
-                              : 'ENTRAR'),
-                          onPressed: () async {
-                            state is AuthSignUpModeState
-                                ? bloc.add(SignUpButtonPressed(
-                                    fullName: name.text, email: email.text))
-                                : bloc
-                                    .add(LoginButtonPressed(email: email.text));
-                          },
+                      : SizedBox(
+                          width: screenSize.width * 0.75,
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.arrow_forward_rounded),
+                            label: Text(state is AuthSignUpModeState
+                                ? 'CRIAR CONTA'
+                                : 'ENTRAR'),
+                            onPressed: () async {
+                              state is AuthSignUpModeState
+                                  ? bloc.add(SignUpButtonPressed(
+                                      fullName: name.text, email: email.text))
+                                  : bloc.add(
+                                      LoginButtonPressed(email: email.text));
+                            },
+                          ),
                         ),
                 ),
                 TextButton(

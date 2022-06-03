@@ -70,7 +70,7 @@ class _PostSeedsState extends State<PostSeeds> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.green.shade200,
       child: BlocBuilder<SeedsBloc, SeedsStates>(
           bloc: bloc,
           builder: (context, state) {

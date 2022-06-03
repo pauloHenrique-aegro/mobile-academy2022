@@ -47,7 +47,10 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
           .then((seeds) => emit(SomeSeedsState(seeds)));
     });
 
-    /*on<DeleteSeedEvent>(
-        (event, emit) => emit(SomeSeedsState(_repo.deleteSeeds(event.seed))));*/
+    on<UpdateSeedEvent>(
+        (event, emit) => emit(SomeSeedsState(_repo.updateSeed(event.seed))));
+
+    on<DeleteSeedEvent>(
+        (event, emit) => emit(SomeSeedsState(_repo.deleteSeed(event.seed))));
   }
 }

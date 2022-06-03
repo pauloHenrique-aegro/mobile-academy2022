@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/database/seeds_database_model.dart';
+import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_detail.dart';
 import 'package:seeds_system/ui/widgets/seeds_widgets/show_modal_bottom.dart';
 import '../../routes.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
@@ -85,7 +86,17 @@ class _DashboardPageState extends State<DashboardPage> {
                               children: <Widget>[
                                 ListTile(
                                   onTap: () {
-                                    // TODO: NAVIGATION TO DETAIL SCREEN
+                                    showModalBottom(
+                                        context,
+                                        SeedDetail(
+                                          name: seedsList[index].name,
+                                          manufacturer:
+                                              seedsList[index].manufacturer,
+                                          manufacturedAt:
+                                              seedsList[index].manufacturedAt,
+                                          expiresIn: seedsList[index].expiresIn,
+                                          seed: seedsList[index],
+                                        ));
                                   },
                                   onLongPress: () {
                                     print("alo");
@@ -94,13 +105,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                   subtitle: Text(
                                       "Fabricante: ${seedsList[index].manufacturer.toString()}"),
                                   isThreeLine: true,
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.delete_forever),
-                                    onPressed: () {
-                                      bloc.add(
-                                          DeleteSeedEvent(seedsList[index]));
-                                    },
-                                  ),
                                 ),
                               ]),
                         ),

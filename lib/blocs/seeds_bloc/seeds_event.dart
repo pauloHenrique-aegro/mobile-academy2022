@@ -15,6 +15,12 @@ class RegisterSeedEvent extends SeedsEvents {
   RegisterSeedEvent(this.seed);
 }
 
+class UpdateSeedEvent extends SeedsEvents {
+  SeedsDatabaseModel seed;
+
+  UpdateSeedEvent(this.seed);
+}
+
 class DeleteSeedEvent extends SeedsEvents {
   SeedsDatabaseModel seed;
 

@@ -12,26 +12,29 @@ class AuthPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  const Color.fromRGBO(255, 255, 255, 255).withOpacity(0.5),
-                  const Color.fromRGBO(0, 140, 49, 1).withOpacity(0.9),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: const [0, 1],
-              ),
-            ),
+            color: const Color.fromRGBO(0, 140, 49, 1).withOpacity(0.9),
           ),
           SingleChildScrollView(
             child: SizedBox(
               height: screenSize.height,
               width: screenSize.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Text(
+                        "Seja bem vindo(a)",
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                      const Text(
+                        "Faça o seu login para continuar.",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      )
+                    ],
+                  ),
                   Flexible(
                     flex: screenSize.width > 600 ? 2 : 1,
                     child: const AuthCardWidget(),

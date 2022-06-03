@@ -63,4 +63,12 @@ class SeedsRepository {
   updateSyncFlag(SeedsDatabaseModel seed) async {
     await SeedsDatabase.updateSyncFlag(seed: seed);
   }
+
+  deleteSeed(SeedsDatabaseModel seed) async {
+    SeedsDatabase.deleteSeed(seed);
+  }
+
+  updateSeed(SeedsDatabaseModel seed) async {
+    SeedsDatabase.updateSeed(seed);
+  }
 }
