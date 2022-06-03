@@ -19,7 +19,9 @@ class _PostSeedsState extends State<PostSeeds> {
   TextEditingController manufacturer = TextEditingController();
   TextEditingController manufacturedAt = TextEditingController();
   TextEditingController expiresIn = TextEditingController();
-  DateTime? _selectedDate;
+  DateTime? _manufacturedAt;
+  DateTime? _expiresIn;
+  final localDateFormat = DateFormat('dd-MM-yyyy');
 
   void _manufacturedAtDatePicker() {
     showDatePicker(
@@ -27,16 +29,30 @@ class _PostSeedsState extends State<PostSeeds> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2019),
       lastDate: DateTime.now(),
-    );
+    ).then((manufacturedAtPickedDate) {
+      if (manufacturedAtPickedDate == null) {
+        return;
+      }
+      setState(() {
+        _manufacturedAt = manufacturedAtPickedDate;
+      });
+    });
   }
 
   void _expiresInDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
+      firstDate: _manufacturedAt!,
       lastDate: DateTime.now(),
-    );
+    ).then((expiresInPickedDate) {
+      if (expiresInPickedDate == null) {
+        return;
+      }
+      setState(() {
+        _expiresIn = expiresInPickedDate;
+      });
+    });
   }
 
   late final SeedsBloc bloc;
@@ -97,20 +113,19 @@ class _PostSeedsState extends State<PostSeeds> {
                       decoration:
                           const InputDecoration(labelText: "Fabricante"),
                     ),
-                    Container(
+                    SizedBox(
                       height: 70,
                       child: Row(
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              _selectedDate == null
-                                  ? 'No Date Chosen!'
-                                  : 'Data de Fabricação: ${DateFormat.yMd().format(_selectedDate!)}',
+                              _manufacturedAt == null
+                                  ? 'Data de Fabricação'
+                                  : 'Data de Fabricação: ${localDateFormat.format(_manufacturedAt!)}',
                             ),
                           ),
-                          FlatButton(
-                            textColor: Theme.of(context).primaryColor,
-                            child: Text(
+                          OutlinedButton(
+                            child: const Text(
                               'Insira a data',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -121,26 +136,27 @@ class _PostSeedsState extends State<PostSeeds> {
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 70,
                       child: Row(
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              _selectedDate == null
-                                  ? 'No Date Chosen!'
-                                  : 'Data de vencimento: ${DateFormat.yMd().format(_selectedDate!)}',
+                              _expiresIn == null
+                                  ? 'Data de vencimento'
+                                  : 'Data de vencimento: ${localDateFormat.format(_expiresIn!)}',
                             ),
                           ),
-                          FlatButton(
-                            textColor: Theme.of(context).primaryColor,
-                            child: Text(
+                          OutlinedButton(
+                            child: const Text(
                               'Insira a data',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onPressed: _manufacturedAtDatePicker,
+                            onPressed: _manufacturedAt == null
+                                ? null
+                                : _expiresInDatePicker,
                           ),
                         ],
                       ),
