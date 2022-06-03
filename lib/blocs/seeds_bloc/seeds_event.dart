@@ -28,3 +28,9 @@ class SyncSeedEvent extends SeedsEvents {
 }
 
 class LoadApiSeedsEvent extends SeedsEvents {}
+
+class LoadSearchEvent extends SeedsEvents {
+  String query;
+
+  LoadSearchEvent({required this.query});
+}

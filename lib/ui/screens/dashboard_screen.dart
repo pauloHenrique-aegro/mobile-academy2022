@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds_system/database/seeds_database_model.dart';
 import '../../routes.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
@@ -50,6 +51,8 @@ class _DashboardPageState extends State<DashboardPage> {
             height: 45,
             padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: TextField(
+              onChanged: (text) => bloc.add(LoadSearchEvent(query: text)),
+              //onSubmitted: (text) => bloc.add(LoadSearchEvent(query: text)),
               textAlignVertical: TextAlignVertical.bottom,
               decoration: InputDecoration(
                 border:
@@ -80,7 +83,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is SomeSeedsState) {
-                    final seedsList = state.seeds;
+                    var seedsList = state.seeds;
                     return ListView.separated(
                       padding: const EdgeInsets.all(9),
                       itemCount: seedsList.length,
@@ -124,6 +127,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void dispose() {
+    bloc.seedsController.close();
     bloc.close();
     super.dispose();
   }

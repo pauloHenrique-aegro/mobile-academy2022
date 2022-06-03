@@ -52,4 +52,13 @@ class SeedsDatabase {
     final db = await database();
     await db.rawUpdate('UPDATE seeds SET isSync = 1 WHERE id = "${seed.id}"');
   }
+
+  static Future<List<SeedsDatabaseModel>> getSeedsByName(
+      {required String name}) async {
+    final db = await database();
+    final List<Map<String, dynamic>> list =
+        await db.rawQuery('SELECT * FROM seeds WHERE name = "$name"');
+    return List.generate(
+        list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
+  }
 }

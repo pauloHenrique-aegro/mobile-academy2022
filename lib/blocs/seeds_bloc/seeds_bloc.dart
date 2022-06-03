@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:seeds_system/database/seeds_database_model.dart';
 import '../seeds_bloc/seeds_event.dart';
 import '../seeds_bloc/seeds_state.dart';
 import '../../repositories/seeds_repository.dart';
 
 class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
   final _repo = SeedsRepository();
+
+  final seedsController =
+      StreamController<List<SeedsDatabaseModel>>.broadcast();
 
   SeedsBloc() : super(EmptySeedsState()) {
     on<LoadSeedsEvent>((event, emit) async {
@@ -32,6 +38,13 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
 
     on<LoadApiSeedsEvent>((event, emit) async {
       await _repo.saveSeedsFromApi();
+    });
+
+    on<LoadSearchEvent>((event, emit) async {
+      emit(LoadingSeedsState());
+      await _repo
+          .getSeedsListByName(event.query)
+          .then((seeds) => emit(SomeSeedsState(seeds)));
     });
 
     /*on<DeleteSeedEvent>(

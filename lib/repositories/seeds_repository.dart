@@ -17,6 +17,12 @@ class SeedsRepository {
     return fetchedSeeds;
   }
 
+  Future<List<SeedsDatabaseModel>> getSeedsListByName(String seedName) async {
+    final fetchedSeedsByName =
+        await SeedsDatabase.getSeedsByName(name: seedName);
+    return fetchedSeedsByName;
+  }
+
   saveSeeds(Seeds seed) async {
     String id = const Uuid().v4().toString();
     String userId = await UserIdPreferences().getExternalUserId();
