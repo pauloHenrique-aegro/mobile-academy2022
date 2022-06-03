@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seeds_system/routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../routes.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
 import '../../blocs/seeds_bloc/seeds_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../screens/post_seeds_screen.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -21,6 +22,19 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
     bloc = SeedsBloc();
     bloc.add(LoadSeedsEvent());
+  }
+
+  void _startAddNewSeeds(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: const PostSeeds(),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
   }
 
   @override
@@ -68,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       itemBuilder: (context, index) => Card(
                         elevation: 8,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -105,6 +119,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   }
                   return Container();
                 }),
+            FloatingActionButton(onPressed: () => _startAddNewSeeds(context)),
           ],
         ));
   }
