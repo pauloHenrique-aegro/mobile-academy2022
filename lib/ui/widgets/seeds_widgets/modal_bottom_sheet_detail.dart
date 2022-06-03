@@ -6,7 +6,6 @@ import '../../../routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../../blocs/seeds_bloc/seeds_state.dart';
 import '../../../blocs/seeds_bloc/seeds_event.dart';
-import '../../../models/seeds.dart';
 
 class SeedDetail extends StatefulWidget {
   final SeedsDatabaseModel seed;
@@ -162,7 +161,7 @@ class _SeedDetailState extends State<SeedDetail> {
                             .pushReplacementNamed(dashboardRoute);
                       },
                       child: const Text("Salvar")),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

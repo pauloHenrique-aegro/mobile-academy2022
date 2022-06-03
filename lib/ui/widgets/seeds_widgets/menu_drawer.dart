@@ -88,13 +88,11 @@ class MenuDrawerWidget extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.white;
-    final hoverColor = Colors.black;
+    const color = Colors.white;
 
     return ListTile(
       leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
-      hoverColor: hoverColor,
+      title: Text(text, style: const TextStyle(color: color)),
       onTap: onClicked,
     );
   }

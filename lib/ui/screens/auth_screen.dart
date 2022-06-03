@@ -24,13 +24,13 @@ class AuthPage extends StatelessWidget {
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
-                        "Seja bem vindo(a)",
+                    children: const <Widget>[
+                      Text(
+                        'Seja bem vindo(a)',
                         style: TextStyle(fontSize: 30, color: Colors.white),
                       ),
-                      const Text(
-                        "Faça o seu login para continuar.",
+                      Text(
+                        'Faça o seu login para continuar.',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       )
                     ],

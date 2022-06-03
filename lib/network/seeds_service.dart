@@ -32,9 +32,8 @@ class SeedApiService {
           });
 
       var code = response.statusCode;
-      print(code);
       if (code == 500) {
-        //throw EmailInUse();
+        //Todo: handling error
       }
     } catch (error) {
       rethrow;
@@ -51,14 +50,12 @@ class SeedApiService {
       final fetchedApiSeeds = List.generate(
           list.length, (index) => SeedsApiModel.fromJson(list[index]));
       var code = response.statusCode;
-      print(code);
-      print(fetchedApiSeeds);
       return fetchedApiSeeds;
 
       /*if (code == 404) {
       throw UserNotFound();
-    } else if (code == 400) {
-      throw InvalidFields();
+    } else if (code == 500) {
+      
     }*/
     } catch (error) {
       rethrow;

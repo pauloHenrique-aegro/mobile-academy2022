@@ -1,5 +1,4 @@
 import 'package:seeds_system/database/seeds_database_model.dart';
-import 'package:seeds_system/network/seeds_api_model.dart';
 
 import '../../models/seeds.dart';
 

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/database/seeds_database_model.dart';
-import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_detail.dart';
-import 'package:seeds_system/ui/widgets/seeds_widgets/show_modal_bottom.dart';
-import '../../routes.dart';
+import '../widgets/seeds_widgets/modal_bottom_sheet_detail.dart';
+import '../widgets/seeds_widgets/show_modal_bottom.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
@@ -34,7 +32,6 @@ class _DashboardPageState extends State<DashboardPage> {
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Colors.green.shade400,
-          actions: [],
           title: Container(
             width: double.infinity,
             height: 45,
@@ -96,9 +93,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                           seed: seedsList[index],
                                         ));
                                   },
-                                  onLongPress: () {
-                                    print("alo");
-                                  },
                                   title: Text(seedsList[index].name),
                                   subtitle: Text(
                                       "Fabricante: ${seedsList[index].manufacturer.toString()}"),
@@ -118,7 +112,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void dispose() {
-    bloc.seedsController.close();
     bloc.close();
     super.dispose();
   }
