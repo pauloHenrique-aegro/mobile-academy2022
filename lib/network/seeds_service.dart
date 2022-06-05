@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:seeds_system/network/seeds_api_model.dart';
 
 class SeedApiService {
-  Future<void> postSeeds(
+  static Future<void> postSeeds(
       String id,
       String name,
       String manufacturer,
@@ -40,7 +40,7 @@ class SeedApiService {
     }
   }
 
-  Future<List<SeedsApiModel>> getRemoteSeeds(String userId) async {
+  static Future<List<SeedsApiModel>> getRemoteSeeds(String userId) async {
     var url = Uri.parse(
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/seed/$userId');
 

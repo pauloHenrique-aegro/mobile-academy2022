@@ -40,13 +40,13 @@ class SeedsRepository {
   }
 
   syncSeeds(SeedsDatabaseModel seed) async {
-    await SeedApiService().postSeeds(seed.id, seed.name, seed.manufacturer,
+    await SeedApiService.postSeeds(seed.id, seed.name, seed.manufacturer,
         seed.manufacturedAt, seed.expiresIn, seed.createdAt, seed.createdBy);
   }
 
   saveSeedsFromApi() async {
     String userId = await UserIdPreferences().getExternalUserId();
-    List<SeedsApiModel> seeds = await SeedApiService().getRemoteSeeds(userId);
+    List<SeedsApiModel> seeds = await SeedApiService.getRemoteSeeds(userId);
     for (int i = 0; i < seeds.length; i++) {
       await SeedsDatabase.registerSeed(SeedsDatabaseModel(
           id: seeds[i].id,

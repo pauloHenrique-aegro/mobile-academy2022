@@ -5,9 +5,7 @@ import '../models/api_exception.dart';
 import '../utils/userId_preferences.dart';
 
 class AuthApiService {
-  late String _externalId;
-
-  Future<void> signUp(String fullName, String email) async {
+  static Future<void> signUp(String fullName, String email) async {
     String id = const Uuid().v4().toString();
     var url = Uri.parse(
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/user');
@@ -31,7 +29,8 @@ class AuthApiService {
     }
   }
 
-  Future<void> login(String email) async {
+  static Future<void> login(String email) async {
+    late String _externalId;
     var url = Uri.parse(
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/user/auth');
 
