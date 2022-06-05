@@ -49,7 +49,6 @@ class SeedApiService {
       final list = json.decode(response.body);
       final fetchedApiSeeds = List.generate(
           list.length, (index) => SeedsApiModel.fromJson(list[index]));
-      var code = response.statusCode;
       return fetchedApiSeeds;
 
       /*if (code == 404) {

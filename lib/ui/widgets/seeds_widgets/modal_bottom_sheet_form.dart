@@ -40,9 +40,9 @@ class _PostSeedsState extends State<PostSeeds> {
   void _expiresInDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: _manufacturedAt!,
-      lastDate: DateTime.now(),
+      initialDate: _manufacturedAt!.add(const Duration(days: 1)),
+      firstDate: _manufacturedAt!.add(const Duration(days: 1)),
+      lastDate: DateTime(DateTime.now().year + 5),
     ).then((expiresInPickedDate) {
       if (expiresInPickedDate == null) {
         return;

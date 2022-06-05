@@ -25,7 +25,6 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
       try {
         await _repo.syncSeeds(event.seed);
         await _repo.updateSyncFlag(event.seed);
-        print(state.runtimeType);
       } on Exception catch (e) {
         emit(SyncSeedsFailureState(e));
       }
@@ -42,10 +41,16 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
           .then((seeds) => emit(SomeSeedsState(seeds)));
     });
 
-    on<UpdateSeedEvent>(
-        (event, emit) => emit(SomeSeedsState(_repo.updateSeed(event.seed))));
+    on<UpdateSeedEvent>((event, emit) async {
+      await _repo
+          .updateSeed(event.seed)
+          .then((seeds) => emit(SomeSeedsState(seeds)));
+    });
 
-    on<DeleteSeedEvent>(
-        (event, emit) => emit(SomeSeedsState(_repo.deleteSeed(event.seed))));
+    on<DeleteSeedEvent>((event, emit) async {
+      await _repo
+          .deleteSeed(event.seed)
+          .then((seeds) => emit(SomeSeedsState(seeds)));
+    });
   }
 }

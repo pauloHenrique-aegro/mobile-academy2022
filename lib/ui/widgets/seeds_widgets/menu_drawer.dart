@@ -6,11 +6,7 @@ import 'package:seeds_system/ui/widgets/seeds_widgets/show_modal_bottom.dart';
 
 class MenuDrawerWidget extends StatelessWidget {
   const MenuDrawerWidget({Key? key}) : super(key: key);
-  final padding = const EdgeInsets.symmetric(horizontal: 20);
-
-  void _clearExternalId() async {
-    await UserIdPreferences().prefsClear();
-  }
+  final padding = const EdgeInsets.all(20);
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +15,10 @@ class MenuDrawerWidget extends StatelessWidget {
         color: Colors.green.shade200,
         child: ListView(
           children: <Widget>[
-            buildHeader(
-              name: "",
-              email: "",
-            ),
             Container(
               padding: padding,
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
-                  const SizedBox(height: 24),
                   buildMenuItem(
                       text: 'Cadastro de Sementes',
                       icon: Icons.add_box_outlined,
@@ -45,7 +35,7 @@ class MenuDrawerWidget extends StatelessWidget {
                     text: 'Logout',
                     icon: Icons.logout_rounded,
                     onClicked: () async {
-                      _clearExternalId;
+                      await UserPreferences().prefsClear();
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           authScreenRoute, (route) => false);
                     },
@@ -58,30 +48,6 @@ class MenuDrawerWidget extends StatelessWidget {
       ),
     );
   }
-
-  Widget buildHeader({
-    required String name,
-    required String email,
-  }) =>
-      InkWell(
-        child: Container(
-          padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: const TextStyle(fontSize: 20, color: Colors.white),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                email,
-                style: const TextStyle(fontSize: 14, color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-      );
 
   Widget buildMenuItem({
     required String text,

@@ -31,6 +31,7 @@ class AuthApiService {
 
   static Future<void> login(String email) async {
     late String _externalId;
+
     var url = Uri.parse(
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/user/auth');
 
@@ -42,12 +43,10 @@ class AuthApiService {
       });
 
       var code = response.statusCode;
-
       final responseData = json.decode(response.body);
-      print(responseData);
       if (responseData['id'] != null) {
         _externalId = responseData['id'];
-        await UserIdPreferences().setExternalUserId(_externalId);
+        await UserPreferences().setExternalUserId(_externalId);
       }
 
       if (code == 404) {

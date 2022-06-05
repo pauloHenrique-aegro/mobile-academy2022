@@ -41,7 +41,7 @@ class SeedsDatabase {
 
   static Future<List<SeedsDatabaseModel>> getAllSeeds() async {
     final db = await database();
-    String userId = await UserIdPreferences().getExternalUserId();
+    String userId = await UserPreferences().getExternalUserId();
     final List<Map<String, dynamic>> list =
         await db.query("seeds", where: 'createdBy = ?', whereArgs: [userId]);
     return List.generate(
