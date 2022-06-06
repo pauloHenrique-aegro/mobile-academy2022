@@ -12,7 +12,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LoginButtonPressed>((event, emit) async {
       if (await UserPreferences().containsIdKey()) {
-        print("tem usuiario");
         await UserPreferences().prefsClear();
       }
       emit(LoadingAuthState());

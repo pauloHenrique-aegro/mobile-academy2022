@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
+import 'ui/screens/splash_screen.dart';
 import './routes.dart';
 import './blocs/auth_bloc/auth_bloc.dart';
 import './blocs/auth_bloc/auth_state.dart';
@@ -30,19 +30,18 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white,
             titleTextStyle: const TextStyle(
               fontSize: 26,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
         home: BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(AuthLoginModeState()),
-          child: const AuthPage(),
+          child: const SplashPage(),
         ),
         routes: {
           authScreenRoute: (ctx) => const AuthPage(),
           dashboardRoute: (ctx) => const DashboardPage(),
-          postSeedsRoute: (ctx) => const PostSeeds(),
         },
       ),
     );

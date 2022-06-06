@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/models/api_exception.dart';
 import 'package:seeds_system/routes.dart';
 import '../../../blocs/auth_bloc/auth_event.dart';
-import '../show_error_dialog.dart';
+import '../show_dialogs.dart';
 import '../../../blocs/auth_bloc/auth_bloc.dart';
 import '../../../blocs/auth_bloc/auth_state.dart';
 

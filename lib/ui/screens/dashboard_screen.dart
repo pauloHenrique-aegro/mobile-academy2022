@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import '../widgets/seeds_widgets/modal_bottom_sheet_detail.dart';
 import '../widgets/seeds_widgets/show_modal_bottom.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
@@ -17,6 +18,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   late final SeedsBloc bloc;
+  final applicationDateFormat = DateFormat('dd.MM.yyyy hh:mm:ss');
 
   @override
   void initState() {
@@ -29,6 +31,8 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor:
+            const Color.fromRGBO(220, 220, 220, 1).withOpacity(0.9),
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Colors.green.shade400,
@@ -70,35 +74,109 @@ class _DashboardPageState extends State<DashboardPage> {
                   } else if (state is SomeSeedsState) {
                     var seedsList = state.seeds;
                     return ListView.separated(
-                      padding: const EdgeInsets.all(9),
+                      padding: const EdgeInsets.all(10),
                       itemCount: seedsList.length,
-                      itemBuilder: (context, index) => Card(
-                        elevation: 8,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          seedsList[index].isSync == 0
+                              ? showModalBottom(
+                                  context,
+                                  SeedDetail(
+                                    name: seedsList[index].name,
+                                    manufacturer: seedsList[index].manufacturer,
+                                    manufacturedAt:
+                                        seedsList[index].manufacturedAt,
+                                    expiresIn: seedsList[index].expiresIn,
+                                    seed: seedsList[index],
+                                  ))
+                              : null;
+                        },
+                        child: Card(
+                          elevation: 8,
                           child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ListTile(
-                                  onTap: () {
-                                    showModalBottom(
-                                        context,
-                                        SeedDetail(
-                                          name: seedsList[index].name,
-                                          manufacturer:
-                                              seedsList[index].manufacturer,
-                                          manufacturedAt:
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 10),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        seedsList[index].name,
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text('Fabricante:'),
+                                            Text(seedsList[index].manufacturer)
+                                          ]),
+                                      const SizedBox(height: 10),
+                                      Container(
+                                        height: 10,
+                                        width: double.infinity,
+                                        color: Colors.green.shade400,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text('Data de Fabricação:'),
+                                            Text(
                                               seedsList[index].manufacturedAt,
-                                          expiresIn: seedsList[index].expiresIn,
-                                          seed: seedsList[index],
-                                        ));
-                                  },
-                                  title: Text(seedsList[index].name),
-                                  subtitle: Text(
-                                      "Fabricante: ${seedsList[index].manufacturer.toString()}"),
-                                  isThreeLine: true,
-                                ),
-                              ]),
+                                              style: const TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationColor: Colors.green,
+                                                  decorationThickness: 3),
+                                            )
+                                          ]),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Data de Vencimento:'),
+                                          Text(
+                                            seedsList[index].expiresIn,
+                                            style: const TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationColor: Colors.red,
+                                                decorationThickness: 3),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                    ]),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                width: double.infinity,
+                                color: Colors.green.shade200,
+                                alignment: Alignment.center,
+                                child: seedsList[index].isSync == 0
+                                    ? Wrap(
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        children: const <Widget>[
+                                          Icon(
+                                            Icons.warning,
+                                            color: Colors.deepOrange,
+                                          ),
+                                          Text('Sincronização pendente'),
+                                        ],
+                                      )
+                                    : const Text("Dado sincronizado"),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       separatorBuilder: (context, index) => const Divider(),
