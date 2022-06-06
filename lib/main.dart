@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
         routes: {
           authScreenRoute: (ctx) => const AuthPage(),
           dashboardRoute: (ctx) => const DashboardPage(),
-          postSeedsRoute: (ctx) => const PostSeeds(),
         },
       ),
     );
