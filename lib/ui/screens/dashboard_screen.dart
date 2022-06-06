@@ -129,7 +129,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                           children: [
                                             const Text('Data de Fabricação:'),
                                             Text(
-                                              seedsList[index].manufacturedAt,
+                                              seedsList[index]
+                                                  .manufacturedAt
+                                                  .split('-')
+                                                  .reversed
+                                                  .join('-'),
                                               style: const TextStyle(
                                                   decoration:
                                                       TextDecoration.underline,
@@ -144,7 +148,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                         children: [
                                           const Text('Data de Vencimento:'),
                                           Text(
-                                            seedsList[index].expiresIn,
+                                            seedsList[index]
+                                                .expiresIn
+                                                .split('-')
+                                                .reversed
+                                                .join('-'),
                                             style: const TextStyle(
                                                 decoration:
                                                     TextDecoration.underline,
