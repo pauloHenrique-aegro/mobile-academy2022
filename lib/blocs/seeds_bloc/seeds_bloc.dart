@@ -25,7 +25,7 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
       try {
         await _repo.syncSeeds(event.seed);
         await _repo.updateSyncFlag(event.seed);
-        emit(SyncSeedsSucessState());
+        emit(SyncSeedsSuccessState());
       } on Exception catch (e) {
         emit(SyncSeedsFailureState(e));
       }
