@@ -68,9 +68,12 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                             context, "Por favor, verifique os campos!");
                       } else if (state.exception is EmailInUse) {
                         await showErrorDialog(context, 'Email já cadastrado!');
-                      } else {
+                      } else if (state.exception is TimeExceeded) {
+                        await showErrorDialog(
+                            context, 'Tempo excedido. Tente novamente!');
+                      } else if (state.exception is UnavailableServer) {
                         await showErrorDialog(context,
-                            "Cheque sua conexão à internet ou tente novamente mais tarde!");
+                            'Servidor indisponível, tente novament mais tarde');
                       }
                     }
                     if (state is LoginSuccessState) {
@@ -97,7 +100,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text("Email inválido"),
+                                        content: Text('Email inválido'),
                                         duration: Duration(seconds: 1),
                                         backgroundColor: Colors.deepOrange));
                               }

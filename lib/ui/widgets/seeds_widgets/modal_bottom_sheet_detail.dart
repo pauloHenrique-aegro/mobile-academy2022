@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds_system/database/seeds_database_model.dart';
+import 'package:seeds_system/models/api_exception.dart';
 import 'package:seeds_system/ui/widgets/show_dialogs.dart';
 import '../../../routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
@@ -166,8 +167,13 @@ class _SeedDetailState extends State<SeedDetail> {
                 BlocListener<SeedsBloc, SeedsStates>(
                   listener: (context, state) async {
                     if (state is SyncSeedsFailureState) {
-                      await showErrorDialog(context,
-                          'Erro ao sincronizar sementes. Cheque sua conexão à internet ou tente novamente mais tarde!');
+                      if (state.exception is TimeExceeded) {
+                        await showErrorDialog(
+                            context, 'Tempo excedido. Tente novamente!');
+                      } else if (state.exception is UnavailableServer) {
+                        await showErrorDialog(context,
+                            'Servidor indisponível, tente novament mais tarde');
+                      }
                     } else if (state is SyncSeedsSuccessState) {
                       Navigator.of(context)
                           .pushReplacementNamed(dashboardRoute);

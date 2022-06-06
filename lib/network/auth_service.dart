@@ -16,13 +16,16 @@ class AuthApiService {
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
-          });
+          }).timeout(const Duration(seconds: 20),
+          onTimeout: () => throw TimeExceeded());
 
       var code = response.statusCode;
       if (code == 500) {
         throw EmailInUse();
       } else if (code == 400) {
         throw InvalidFields();
+      } else if (code == 503) {
+        throw UnavailableServer();
       }
     } catch (error) {
       rethrow;
@@ -36,11 +39,12 @@ class AuthApiService {
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/user/auth');
 
     try {
-      final response =
-          await http.post(url, body: json.encode({"email": email}), headers: {
+      final response = await http
+          .post(url, body: json.encode({"email": email}), headers: {
         "content-type": "application/json",
         "accept": "application/json",
-      });
+      }).timeout(const Duration(seconds: 20),
+              onTimeout: () => throw TimeExceeded());
 
       var code = response.statusCode;
       final responseData = json.decode(response.body);
@@ -53,6 +57,8 @@ class AuthApiService {
         throw UserNotFound();
       } else if (code == 400) {
         throw InvalidFields();
+      } else if (code == 503) {
+        throw UnavailableServer();
       }
     } catch (error) {
       rethrow;
