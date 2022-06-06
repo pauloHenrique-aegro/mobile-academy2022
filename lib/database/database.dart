@@ -46,7 +46,7 @@ class SeedsDatabase {
   static Future<int> deleteSeed(SeedsDatabaseModel seed) async {
     try {
       final db = await database();
-      return await db.delete("seed", where: 'id=?', whereArgs: [seed.id]);
+      return await db.delete("seeds", where: 'id=?', whereArgs: [seed.id]);
     } catch (error) {
       throw DbException();
     }

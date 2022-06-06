@@ -198,9 +198,8 @@ class _SeedDetailState extends State<SeedDetail> {
                   child: SizedBox(
                     width: screenSize.width * 0.5,
                     child: ElevatedButton(
-                        onPressed: () async {
-                          await showAlertDialog(
-                              context, bloc.add(SyncSeedEvent(widget.seed)));
+                        onPressed: () {
+                          bloc.add(SyncSeedEvent(widget.seed));
                         },
                         child: const Text("Sincronizar")),
                   ),
@@ -211,6 +210,9 @@ class _SeedDetailState extends State<SeedDetail> {
                       await showErrorDialog(
                           context, state.exception.toString());
                       await Future.delayed(const Duration(seconds: 1));
+                      Navigator.of(context)
+                          .pushReplacementNamed(dashboardRoute);
+                    } else {
                       Navigator.of(context)
                           .pushReplacementNamed(dashboardRoute);
                     }
