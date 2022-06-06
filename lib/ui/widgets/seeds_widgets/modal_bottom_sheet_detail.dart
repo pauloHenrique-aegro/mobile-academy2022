@@ -71,13 +71,7 @@ class _SeedDetailState extends State<SeedDetail> {
   @override
   void initState() {
     super.initState();
-    bloc = SeedsBloc();
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
+    bloc = BlocProvider.of<SeedsBloc>(context);
   }
 
   @override
@@ -174,8 +168,7 @@ class _SeedDetailState extends State<SeedDetail> {
                     if (state is SyncSeedsFailureState) {
                       await showErrorDialog(context,
                           'Erro ao sincronizar sementes. Cheque sua conexão à internet ou tente novamente mais tarde!');
-                    } else if (state is SyncSeedsSucessState) {
-                      print(state.runtimeType);
+                    } else if (state is SyncSeedsSuccessState) {
                       Navigator.of(context)
                           .pushReplacementNamed(dashboardRoute);
                     }
@@ -205,5 +198,11 @@ class _SeedDetailState extends State<SeedDetail> {
             ]);
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
   }
 }

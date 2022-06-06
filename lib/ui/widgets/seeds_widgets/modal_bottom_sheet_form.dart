@@ -58,7 +58,7 @@ class _PostSeedsState extends State<PostSeeds> {
   @override
   void initState() {
     super.initState();
-    bloc = SeedsBloc();
+    bloc = BlocProvider.of<SeedsBloc>(context);
   }
 
   @override

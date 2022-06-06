@@ -17,7 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(LoadingAuthState());
       try {
         await _repo.login(event.email);
-        emit(LoginSucessState());
+        emit(LoginSuccessState());
       } on Exception catch (e) {
         emit(AuthFailureState(e));
       }
@@ -27,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(LoadingAuthState());
       try {
         await _repo.signUp(event.fullName, event.email);
-        emit(SignUpSucessState());
+        emit(SignUpSuccessState());
       } on Exception catch (e) {
         emit(AuthFailureState(e));
       }

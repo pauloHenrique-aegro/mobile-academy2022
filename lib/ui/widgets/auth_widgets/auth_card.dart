@@ -73,7 +73,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                             "Cheque sua conexão à internet ou tente novamente mais tarde!");
                       }
                     }
-                    if (state is LoginSucessState) {
+                    if (state is LoginSuccessState) {
                       Navigator.of(context)
                           .pushReplacementNamed(dashboardRoute);
                     }
