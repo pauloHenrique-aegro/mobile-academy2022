@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/screens/splash_screen.dart';
-import './ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
 import './routes.dart';
 import './blocs/auth_bloc/auth_bloc.dart';
 import './blocs/auth_bloc/auth_state.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white,
             titleTextStyle: const TextStyle(
               fontSize: 26,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

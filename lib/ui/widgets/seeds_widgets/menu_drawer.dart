@@ -21,7 +21,7 @@ class MenuDrawerWidget extends StatelessWidget {
               child: Column(
                 children: [
                   buildMenuItem(
-                      text: 'Cadastro de Sementes',
+                      text: 'Cadastro de sementes',
                       icon: CustomIcons.plantinha,
                       onClicked: () =>
                           showModalBottom(context, const PostSeeds())),
