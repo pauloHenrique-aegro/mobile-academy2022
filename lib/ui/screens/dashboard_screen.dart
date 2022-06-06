@@ -78,15 +78,18 @@ class _DashboardPageState extends State<DashboardPage> {
                       itemCount: seedsList.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          showModalBottom(
-                              context,
-                              SeedDetail(
-                                name: seedsList[index].name,
-                                manufacturer: seedsList[index].manufacturer,
-                                manufacturedAt: seedsList[index].manufacturedAt,
-                                expiresIn: seedsList[index].expiresIn,
-                                seed: seedsList[index],
-                              ));
+                          seedsList[index].isSync == 0
+                              ? showModalBottom(
+                                  context,
+                                  SeedDetail(
+                                    name: seedsList[index].name,
+                                    manufacturer: seedsList[index].manufacturer,
+                                    manufacturedAt:
+                                        seedsList[index].manufacturedAt,
+                                    expiresIn: seedsList[index].expiresIn,
+                                    seed: seedsList[index],
+                                  ))
+                              : null;
                         },
                         child: Card(
                           elevation: 8,
