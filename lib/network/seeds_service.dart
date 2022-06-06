@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:seeds_system/network/seeds_api_model.dart';
 
 class SeedApiService {
-  Future<void> postSeeds(
+  static Future<void> postSeeds(
       String id,
       String name,
       String manufacturer,
@@ -32,16 +32,15 @@ class SeedApiService {
           });
 
       var code = response.statusCode;
-      print(code);
       if (code == 500) {
-        //throw EmailInUse();
+        //Todo: handling error
       }
     } catch (error) {
       rethrow;
     }
   }
 
-  Future<List<SeedsApiModel>> getRemoteSeeds(String userId) async {
+  static Future<List<SeedsApiModel>> getRemoteSeeds(String userId) async {
     var url = Uri.parse(
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/seed/$userId');
 
@@ -50,15 +49,12 @@ class SeedApiService {
       final list = json.decode(response.body);
       final fetchedApiSeeds = List.generate(
           list.length, (index) => SeedsApiModel.fromJson(list[index]));
-      var code = response.statusCode;
-      print(code);
-      print(fetchedApiSeeds);
       return fetchedApiSeeds;
 
       /*if (code == 404) {
       throw UserNotFound();
-    } else if (code == 400) {
-      throw InvalidFields();
+    } else if (code == 500) {
+      
     }*/
     } catch (error) {
       rethrow;

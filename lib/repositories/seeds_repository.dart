@@ -25,7 +25,7 @@ class SeedsRepository {
 
   saveSeeds(Seeds seed) async {
     String id = const Uuid().v4().toString();
-    String userId = await UserIdPreferences().getExternalUserId();
+    String userId = await UserPreferences().getExternalUserId();
 
     await SeedsDatabase.registerSeed(SeedsDatabaseModel(
         id: id,
@@ -40,13 +40,13 @@ class SeedsRepository {
   }
 
   syncSeeds(SeedsDatabaseModel seed) async {
-    await SeedApiService().postSeeds(seed.id, seed.name, seed.manufacturer,
+    await SeedApiService.postSeeds(seed.id, seed.name, seed.manufacturer,
         seed.manufacturedAt, seed.expiresIn, seed.createdAt, seed.createdBy);
   }
 
   saveSeedsFromApi() async {
-    String userId = await UserIdPreferences().getExternalUserId();
-    List<SeedsApiModel> seeds = await SeedApiService().getRemoteSeeds(userId);
+    String userId = await UserPreferences().getExternalUserId();
+    List<SeedsApiModel> seeds = await SeedApiService.getRemoteSeeds(userId);
     for (int i = 0; i < seeds.length; i++) {
       await SeedsDatabase.registerSeed(SeedsDatabaseModel(
           id: seeds[i].id,
@@ -62,5 +62,16 @@ class SeedsRepository {
 
   updateSyncFlag(SeedsDatabaseModel seed) async {
     await SeedsDatabase.updateSyncFlag(seed: seed);
+    return list;
+  }
+
+  deleteSeed(SeedsDatabaseModel seed) async {
+    await SeedsDatabase.deleteSeed(seed);
+    return list;
+  }
+
+  updateSeed(SeedsDatabaseModel seed) async {
+    await SeedsDatabase.updateSeed(seed);
+    return list;
   }
 }

@@ -1,5 +1,4 @@
 import 'package:seeds_system/database/seeds_database_model.dart';
-import 'package:seeds_system/network/seeds_api_model.dart';
 
 import '../../models/seeds.dart';
 
@@ -13,6 +12,12 @@ class RegisterSeedEvent extends SeedsEvents {
   Seeds seed;
 
   RegisterSeedEvent(this.seed);
+}
+
+class UpdateSeedEvent extends SeedsEvents {
+  SeedsDatabaseModel seed;
+
+  UpdateSeedEvent(this.seed);
 }
 
 class DeleteSeedEvent extends SeedsEvents {

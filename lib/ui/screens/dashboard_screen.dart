@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/database/seeds_database_model.dart';
-import '../../routes.dart';
+import '../widgets/seeds_widgets/modal_bottom_sheet_detail.dart';
+import '../widgets/seeds_widgets/show_modal_bottom.dart';
 import '../widgets/seeds_widgets/menu_drawer.dart';
 import '../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../blocs/seeds_bloc/seeds_event.dart';
@@ -26,34 +26,18 @@ class _DashboardPageState extends State<DashboardPage> {
     bloc.add(LoadSeedsEvent());
   }
 
-  void _startAddNewSeeds(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: const PostSeeds(),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Colors.green.shade400,
-          actions: [],
           title: Container(
             width: double.infinity,
             height: 45,
             padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: TextField(
-              onChanged: (value) => bloc.add(LoadSeedsEvent()),
-              onSubmitted: (text) => bloc.add(LoadSearchEvent(query: text)),
-              //onEditingComplete: (text) => bloc.add(event)
+              onChanged: (text) => bloc.add(LoadSearchEvent(query: text)),
               textAlignVertical: TextAlignVertical.bottom,
               decoration: InputDecoration(
                 border:
@@ -71,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         drawer: const MenuDrawerWidget(),
         floatingActionButton: FloatingActionButton(
-            onPressed: () => _startAddNewSeeds(context),
+            onPressed: () => showModalBottom(context, const PostSeeds()),
             child: const Icon(Icons.add)),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: Stack(
@@ -97,22 +81,22 @@ class _DashboardPageState extends State<DashboardPage> {
                               children: <Widget>[
                                 ListTile(
                                   onTap: () {
-                                    // TODO: NAVIGATION TO DETAIL SCREEN
-                                  },
-                                  onLongPress: () {
-                                    print("alo");
+                                    showModalBottom(
+                                        context,
+                                        SeedDetail(
+                                          name: seedsList[index].name,
+                                          manufacturer:
+                                              seedsList[index].manufacturer,
+                                          manufacturedAt:
+                                              seedsList[index].manufacturedAt,
+                                          expiresIn: seedsList[index].expiresIn,
+                                          seed: seedsList[index],
+                                        ));
                                   },
                                   title: Text(seedsList[index].name),
                                   subtitle: Text(
                                       "Fabricante: ${seedsList[index].manufacturer.toString()}"),
                                   isThreeLine: true,
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.delete_forever),
-                                    onPressed: () {
-                                      bloc.add(
-                                          DeleteSeedEvent(seedsList[index]));
-                                    },
-                                  ),
                                 ),
                               ]),
                         ),
@@ -128,7 +112,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void dispose() {
-    bloc.seedsController.close();
     bloc.close();
     super.dispose();
   }

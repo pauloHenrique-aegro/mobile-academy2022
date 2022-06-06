@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds_system/database/seeds_database_model.dart';
 import '../../../routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../../blocs/seeds_bloc/seeds_state.dart';
 import '../../../blocs/seeds_bloc/seeds_event.dart';
-import '../../../models/seeds.dart';
 
-class PostSeeds extends StatefulWidget {
-  const PostSeeds({Key? key}) : super(key: key);
+class SeedDetail extends StatefulWidget {
+  final SeedsDatabaseModel seed;
+  final String name;
+  final String manufacturer;
+  final String manufacturedAt;
+  final String expiresIn;
+  const SeedDetail(
+      {required this.name,
+      required this.manufacturer,
+      required this.manufacturedAt,
+      required this.expiresIn,
+      required this.seed,
+      Key? key})
+      : super(key: key);
 
   @override
-  State<PostSeeds> createState() => _PostSeedsState();
+  State<SeedDetail> createState() => _SeedDetailState();
 }
 
-class _PostSeedsState extends State<PostSeeds> {
-  TextEditingController name = TextEditingController();
-  TextEditingController manufacturer = TextEditingController();
+class _SeedDetailState extends State<SeedDetail> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController manufacturerController = TextEditingController();
   DateTime? _manufacturedAt;
   DateTime? _expiresIn;
   final applicationDateFormat = DateFormat('dd-MM-yyyy');
@@ -40,9 +52,9 @@ class _PostSeedsState extends State<PostSeeds> {
   void _expiresInDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: _manufacturedAt!.add(const Duration(days: 1)),
-      firstDate: _manufacturedAt!.add(const Duration(days: 1)),
-      lastDate: DateTime(DateTime.now().year + 5),
+      initialDate: DateTime.now(),
+      firstDate: _manufacturedAt!,
+      lastDate: DateTime.now(),
     ).then((expiresInPickedDate) {
       if (expiresInPickedDate == null) {
         return;
@@ -79,13 +91,12 @@ class _PostSeedsState extends State<PostSeeds> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: name,
-                    decoration:
-                        const InputDecoration(labelText: "Nome da semente"),
+                    controller: nameController,
+                    decoration: InputDecoration(labelText: widget.name),
                   ),
                   TextFormField(
-                    controller: manufacturer,
-                    decoration: const InputDecoration(labelText: "Fabricante"),
+                    controller: manufacturerController,
+                    decoration: InputDecoration(labelText: widget.manufacturer),
                   ),
                   SizedBox(
                     height: 70,
@@ -94,7 +105,7 @@ class _PostSeedsState extends State<PostSeeds> {
                         Expanded(
                           child: Text(
                             _manufacturedAt == null
-                                ? 'Data de Fabricação'
+                                ? widget.manufacturedAt
                                 : 'Data de Fabricação: ${applicationDateFormat.format(_manufacturedAt!)}',
                           ),
                         ),
@@ -117,7 +128,7 @@ class _PostSeedsState extends State<PostSeeds> {
                         Expanded(
                           child: Text(
                             _expiresIn == null
-                                ? 'Data de vencimento'
+                                ? widget.expiresIn
                                 : 'Data de vencimento: ${applicationDateFormat.format(_expiresIn!)}',
                           ),
                         ),
@@ -137,15 +148,43 @@ class _PostSeedsState extends State<PostSeeds> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        bloc.add(RegisterSeedEvent(Seeds(
-                            name: name.text,
-                            manufacturer: manufacturer.text,
-                            manufacturedAt: _manufacturedAt!,
-                            expiresIn: _expiresIn!)));
+                        bloc.add(UpdateSeedEvent(SeedsDatabaseModel(
+                            id: widget.seed.id,
+                            name: nameController.text,
+                            manufacturer: manufacturerController.text,
+                            manufacturedAt: _manufacturedAt!.toString(),
+                            expiresIn: _manufacturedAt!.toString(),
+                            createdAt: widget.seed.createdAt,
+                            createdBy: widget.seed.createdBy,
+                            isSync: widget.seed.isSync)));
                         Navigator.of(context)
                             .pushReplacementNamed(dashboardRoute);
                       },
-                      child: const Text("Salvar"))
+                      child: const Text("Salvar")),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              bloc.add(SyncSeedEvent(widget.seed));
+                              Navigator.of(context)
+                                  .pushReplacementNamed(dashboardRoute);
+                            },
+                            child: const Text("Sincronizar")),
+                        ElevatedButton(
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.red),
+                            onPressed: () {
+                              bloc.add(DeleteSeedEvent(widget.seed));
+                              Navigator.of(context)
+                                  .pushReplacementNamed(dashboardRoute);
+                            },
+                            child: const Text("Deletar")),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );
