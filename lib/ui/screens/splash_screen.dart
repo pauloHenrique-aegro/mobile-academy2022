@@ -15,7 +15,6 @@ class _SplashPageState extends State<SplashPage> {
   bool loggedIn = true;
   isLogged() async {
     loggedIn = await UserPreferences().containsIdKey();
-    print(loggedIn);
   }
 
   @override

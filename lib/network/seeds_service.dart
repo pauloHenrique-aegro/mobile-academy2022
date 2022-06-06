@@ -4,27 +4,20 @@ import 'dart:convert';
 import 'package:seeds_system/network/seeds_api_model.dart';
 
 class SeedApiService {
-  static Future<void> postSeeds(
-      String id,
-      String name,
-      String manufacturer,
-      String manufacturedAt,
-      String expiresIn,
-      String createdAt,
-      String userId) async {
+  static Future<void> postSeeds(SeedsApiModel seed) async {
     var url = Uri.parse(
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/seed');
 
     try {
       final response = await http.post(url,
           body: json.encode({
-            "id": id,
-            "name": name,
-            "manufacturer": manufacturer,
-            "manufacturedAt": manufacturedAt,
-            "expiresIn": expiresIn,
-            "createdAt": createdAt,
-            "userId": userId
+            "id": seed.id,
+            "name": seed.name,
+            "manufacturer": seed.manufacturer,
+            "manufacturedAt": seed.manufacturedAt,
+            "expiresIn": seed.expiresIn,
+            "createdAt": seed.createdAt,
+            "userId": seed.userId
           }),
           headers: {
             "content-type": "application/json",
