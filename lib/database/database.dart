@@ -56,8 +56,12 @@ class SeedsDatabase {
   static Future<List<SeedsDatabaseModel>> getSeedsByName(
       {required String name}) async {
     final db = await database();
-    final List<Map<String, dynamic>> list =
-        await db.rawQuery("SELECT * FROM seeds WHERE name LIKE '$name%'");
+    String userId = await UserPreferences().getExternalUserId();
+    final List<Map<String, dynamic>> list = await db.query(
+      'seeds',
+      where: 'name LIKE ? and createdBy LIKE ?',
+      whereArgs: ['%$name%', userId],
+    );
     return List.generate(
         list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
   }

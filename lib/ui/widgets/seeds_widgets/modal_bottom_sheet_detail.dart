@@ -174,6 +174,10 @@ class _SeedDetailState extends State<SeedDetail> {
                     if (state is SyncSeedsFailureState) {
                       await showErrorDialog(context,
                           'Erro ao sincronizar sementes. Cheque sua conexão à internet ou tente novamente mais tarde!');
+                    } else if (state is SyncSeedsSucessState) {
+                      print(state.runtimeType);
+                      Navigator.of(context)
+                          .pushReplacementNamed(dashboardRoute);
                     }
                   },
                   child: SizedBox(
@@ -182,8 +186,6 @@ class _SeedDetailState extends State<SeedDetail> {
                         onPressed: () async {
                           await showAlertDialog(
                               context, bloc.add(SyncSeedEvent(widget.seed)));
-                          Navigator.of(context)
-                              .pushReplacementNamed(dashboardRoute);
                         },
                         child: const Text("Sincronizar")),
                   ),
