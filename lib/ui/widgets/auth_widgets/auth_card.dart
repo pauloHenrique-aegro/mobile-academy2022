@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/models/api_exception.dart';
+import 'package:seeds_system/routes.dart';
 import '../../../blocs/auth_bloc/auth_event.dart';
 import '../show_error_dialog.dart';
 import '../../../blocs/auth_bloc/auth_bloc.dart';
 import '../../../blocs/auth_bloc/auth_state.dart';
 
-class AuthCard extends StatefulWidget {
-  const AuthCard({Key? key}) : super(key: key);
+class AuthCardWidget extends StatefulWidget {
+  const AuthCardWidget({Key? key}) : super(key: key);
 
   @override
-  State<AuthCard> createState() => _AuthCardState();
+  State<AuthCardWidget> createState() => _AuthCardWidgetState();
 }
 
-class _AuthCardState extends State<AuthCard> {
+class _AuthCardWidgetState extends State<AuthCardWidget> {
   late final AuthBloc bloc;
 
   TextEditingController email = TextEditingController();
@@ -35,7 +36,7 @@ class _AuthCardState extends State<AuthCard> {
       ),
       elevation: 8.0,
       child: BlocBuilder<AuthBloc, AuthState>(
-        bloc: BlocProvider.of<AuthBloc>(context),
+        bloc: bloc,
         builder: (context, state) {
           return Container(
             height: state is AuthSignUpModeState ? 280 : 220,
@@ -71,8 +72,12 @@ class _AuthCardState extends State<AuthCard> {
                             "Ocorreu um erro. Tente novamente mais tarde!");
                       }
                     }
+                    if (state is LoginSucessState) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(dashboardRoute);
+                    }
                   },
-                  child: state is LoadingState
+                  child: state is LoadingAuthState
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
                           child: Text(state is AuthSignUpModeState

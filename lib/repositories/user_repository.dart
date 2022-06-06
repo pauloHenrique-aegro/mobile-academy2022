@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import '../models/api_exception.dart';
+import '../utils/userId_preferences.dart';
 
 class UserRepository {
+  late String _externalId;
+
   Future<void> signUp(String fullName, String email) async {
     String id = const Uuid().v4().toString();
     var url = Uri.parse(
@@ -18,8 +21,6 @@ class UserRepository {
           });
 
       var code = response.statusCode;
-      print(code);
-      print(response.body);
       if (code == 500) {
         throw EmailInUse();
       } else if (code == 400) {
@@ -42,8 +43,14 @@ class UserRepository {
       });
 
       var code = response.statusCode;
-      print(code);
-      print(response.body);
+
+      final responseData = json.decode(response.body);
+      print(responseData);
+      if (responseData['id'] != null) {
+        _externalId = responseData['id'];
+        await UserIdPreferences().setExternalUserId(_externalId);
+      }
+
       if (code == 404) {
         throw UserNotFound();
       } else if (code == 400) {

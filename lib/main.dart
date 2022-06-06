@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
+import './routes.dart';
 import './blocs/auth_bloc/auth_bloc.dart';
 import './blocs/auth_bloc/auth_state.dart';
 import './ui/screens/auth_screen.dart';
@@ -19,14 +21,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthBloc(AuthLoginModeState()))
       ],
       child: MaterialApp(
-        title: 'Sementes',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.green,
           appBarTheme: AppBarTheme.of(context).copyWith(
             elevation: 0,
             backgroundColor: Colors.green,
-            foregroundColor: Colors.black,
+            foregroundColor: Colors.white,
             titleTextStyle: const TextStyle(
               fontSize: 26,
               color: Colors.black,
@@ -39,7 +40,9 @@ class MyApp extends StatelessWidget {
           child: const AuthPage(),
         ),
         routes: {
-          DashboardPage.routeName: (ctx) => const DashboardPage(),
+          authScreenRoute: (ctx) => const AuthPage(),
+          dashboardRoute: (ctx) => const DashboardPage(),
+          postSeedsRoute: (ctx) => const PostSeeds(),
         },
       ),
     );
