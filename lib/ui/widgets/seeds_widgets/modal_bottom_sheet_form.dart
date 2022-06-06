@@ -62,12 +62,6 @@ class _PostSeedsState extends State<PostSeeds> {
   }
 
   @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.green.shade200,
@@ -151,5 +145,11 @@ class _PostSeedsState extends State<PostSeeds> {
             );
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
   }
 }

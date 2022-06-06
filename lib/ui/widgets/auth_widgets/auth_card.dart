@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/models/api_exception.dart';
 import 'package:seeds_system/routes.dart';
+import 'package:seeds_system/validations/email_validation.dart';
 import '../../../blocs/auth_bloc/auth_event.dart';
 import '../show_dialogs.dart';
 import '../../../blocs/auth_bloc/auth_bloc.dart';
@@ -69,7 +70,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                         await showErrorDialog(context, 'Email já cadastrado!');
                       } else {
                         await showErrorDialog(context,
-                            "Ocorreu um erro. Tente novamente mais tarde!");
+                            "Cheque sua conexão à internet ou tente novamente mais tarde!");
                       }
                     }
                     if (state is LoginSucessState) {
@@ -87,11 +88,19 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                                 ? 'CRIAR CONTA'
                                 : 'ENTRAR'),
                             onPressed: () async {
-                              state is AuthSignUpModeState
-                                  ? bloc.add(SignUpButtonPressed(
-                                      fullName: name.text, email: email.text))
-                                  : bloc.add(
-                                      LoginButtonPressed(email: email.text));
+                              if (await emailIsValid(email.text)) {
+                                state is AuthSignUpModeState
+                                    ? bloc.add(SignUpButtonPressed(
+                                        fullName: name.text, email: email.text))
+                                    : bloc.add(
+                                        LoginButtonPressed(email: email.text));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Email inválido"),
+                                        duration: Duration(seconds: 1),
+                                        backgroundColor: Colors.deepOrange));
+                              }
                             },
                           ),
                         ),
