@@ -182,10 +182,7 @@ class _SeedDetailState extends State<SeedDetail> {
                     child: ElevatedButton(
                         onPressed: () async {
                           await showAlertDialog(
-                            context,
-                            bloc.add(
-                                SyncSeedEvent(widget.seed)), /*dashboardRoute*/
-                          );
+                              context, bloc.add(SyncSeedEvent(widget.seed)));
                         },
                         child: const Text("Sincronizar")),
                   ),
