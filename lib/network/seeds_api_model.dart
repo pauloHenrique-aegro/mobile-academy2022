@@ -1,3 +1,5 @@
+import 'package:seeds_system/database/seeds_database_model.dart';
+
 class SeedsApiModel {
   String id;
   String name;
@@ -26,6 +28,17 @@ class SeedsApiModel {
       createdAt: json['createdAt'],
       userId: json['userId'],
     );
+  }
+
+  factory SeedsApiModel.from(SeedsDatabaseModel seed) {
+    return SeedsApiModel(
+        id: seed.id,
+        name: seed.name,
+        manufacturer: seed.manufacturer,
+        manufacturedAt: seed.manufacturedAt,
+        expiresIn: seed.expiresIn,
+        createdAt: seed.createdAt,
+        userId: seed.createdBy);
   }
 
   Map<String, dynamic> toJson() => {

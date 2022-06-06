@@ -71,7 +71,7 @@ class _SeedDetailState extends State<SeedDetail> {
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<SeedsBloc>(context);
+    bloc = SeedsBloc();
   }
 
   @override
@@ -171,11 +171,10 @@ class _SeedDetailState extends State<SeedDetail> {
               Row(children: [
                 BlocListener<SeedsBloc, SeedsStates>(
                   listener: (context, state) async {
-                    state is SyncSeedsFailureState
-                        ? await showErrorDialog(context,
-                            'Erro ao sincronizar sementes. Cheque sua conexão à internet ou tente novamente mais tarde!')
-                        : Navigator.of(context)
-                            .pushReplacementNamed(dashboardRoute);
+                    if (state is SyncSeedsFailureState) {
+                      await showErrorDialog(context,
+                          'Erro ao sincronizar sementes. Cheque sua conexão à internet ou tente novamente mais tarde!');
+                    }
                   },
                   child: SizedBox(
                     width: screenSize.width * 0.5,
@@ -183,6 +182,8 @@ class _SeedDetailState extends State<SeedDetail> {
                         onPressed: () async {
                           await showAlertDialog(
                               context, bloc.add(SyncSeedEvent(widget.seed)));
+                          Navigator.of(context)
+                              .pushReplacementNamed(dashboardRoute);
                         },
                         child: const Text("Sincronizar")),
                   ),

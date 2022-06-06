@@ -27,36 +27,21 @@ class SeedsRepository {
     String id = const Uuid().v4().toString();
     String userId = await UserPreferences().getExternalUserId();
 
-    await SeedsDatabase.registerSeed(SeedsDatabaseModel(
-        id: id,
-        name: seed.name,
-        manufacturer: seed.manufacturer,
-        manufacturedAt: dateFormat.format(seed.manufacturedAt).toString(),
-        expiresIn: dateFormat.format(seed.expiresIn).toString(),
-        createdAt: DateTime.now().toIso8601String(),
-        createdBy: userId,
-        isSync: 0));
+    await SeedsDatabase.registerSeed(
+        SeedsDatabaseModel.fromSeed(seed, id, userId));
     return list;
   }
 
   syncSeeds(SeedsDatabaseModel seed) async {
-    await SeedApiService.postSeeds(seed.id, seed.name, seed.manufacturer,
-        seed.manufacturedAt, seed.expiresIn, seed.createdAt, seed.createdBy);
+    await SeedApiService.postSeeds(SeedsApiModel.from(seed));
   }
 
   saveSeedsFromApi() async {
     String userId = await UserPreferences().getExternalUserId();
     List<SeedsApiModel> seeds = await SeedApiService.getRemoteSeeds(userId);
     for (int i = 0; i < seeds.length; i++) {
-      await SeedsDatabase.registerSeed(SeedsDatabaseModel(
-          id: seeds[i].id,
-          name: seeds[i].name,
-          manufacturer: seeds[i].manufacturer,
-          manufacturedAt: seeds[i].manufacturedAt,
-          expiresIn: seeds[i].expiresIn,
-          createdAt: seeds[i].createdAt,
-          createdBy: seeds[i].userId,
-          isSync: 1));
+      await SeedsDatabase.registerSeed(
+          SeedsDatabaseModel.fromApiSeed(seeds[i]));
     }
   }
 
