@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds_system/utils/custom_icons.dart';
 import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
 import '../../../routes.dart';
 import '../../../utils/userId_preferences.dart';
@@ -21,7 +22,7 @@ class MenuDrawerWidget extends StatelessWidget {
                 children: [
                   buildMenuItem(
                       text: 'Cadastro de Sementes',
-                      icon: Icons.add_box_outlined,
+                      icon: CustomIcons.plantinha,
                       onClicked: () =>
                           showModalBottom(context, const PostSeeds())),
                   const SizedBox(height: 16),
@@ -33,7 +34,7 @@ class MenuDrawerWidget extends StatelessWidget {
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'Logout',
-                    icon: Icons.logout_rounded,
+                    icon: CustomIcons.aceno,
                     onClicked: () async {
                       await UserPreferences().prefsClear();
                       Navigator.of(context).pushNamedAndRemoveUntil(
