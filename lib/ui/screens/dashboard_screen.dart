@@ -74,7 +74,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   } else if (state is SomeSeedsState) {
                     var seedsList = state.seeds;
                     return ListView.separated(
-                      padding: const EdgeInsets.all(9),
+                      padding: const EdgeInsets.all(10),
                       itemCount: seedsList.length,
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
@@ -90,76 +90,87 @@ class _DashboardPageState extends State<DashboardPage> {
                         },
                         child: Card(
                           elevation: 8,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 10),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    seedsList[index].name,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text('Fabricante:'),
-                                        Text(seedsList[index].manufacturer)
-                                      ]),
-                                  const SizedBox(height: 10),
-                                  Container(
-                                    height: 10,
-                                    width: double.infinity,
-                                    color: Colors.green.shade400,
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text('Data de Fabricação:'),
-                                        Text(
-                                          seedsList[index].manufacturedAt,
-                                          style: const TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor: Colors.green,
-                                              decorationThickness: 3),
-                                        )
-                                      ]),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Data de Fabricação:'),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 10),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
                                       Text(
-                                        seedsList[index].manufacturedAt,
-                                        style: const TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                            decorationColor: Colors.red,
-                                            decorationThickness: 3),
+                                        seedsList[index].name,
+                                        style: const TextStyle(fontSize: 20),
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  seedsList[index].isSync == 0
-                                      ? Wrap(
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.center,
-                                          children: const <Widget>[
-                                            Icon(
-                                              Icons.warning,
-                                              color: Colors.deepOrange,
-                                            ),
-                                            Text('Sincronização pendente'),
-                                          ],
-                                        )
-                                      : const Text("Dado sincronizado"),
-                                ]),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text('Fabricante:'),
+                                            Text(seedsList[index].manufacturer)
+                                          ]),
+                                      const SizedBox(height: 10),
+                                      Container(
+                                        height: 10,
+                                        width: double.infinity,
+                                        color: Colors.green.shade400,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text('Data de Fabricação:'),
+                                            Text(
+                                              seedsList[index].manufacturedAt,
+                                              style: const TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationColor: Colors.green,
+                                                  decorationThickness: 3),
+                                            )
+                                          ]),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Data de Fabricação:'),
+                                          Text(
+                                            seedsList[index].manufacturedAt,
+                                            style: const TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationColor: Colors.red,
+                                                decorationThickness: 3),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                    ]),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                width: double.infinity,
+                                color: Colors.green.shade200,
+                                alignment: Alignment.center,
+                                child: seedsList[index].isSync == 0
+                                    ? Wrap(
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        children: const <Widget>[
+                                          Icon(
+                                            Icons.warning,
+                                            color: Colors.deepOrange,
+                                          ),
+                                          Text('Sincronização pendente'),
+                                        ],
+                                      )
+                                    : const Text("Dado sincronizado"),
+                              )
+                            ],
                           ),
                         ),
                       ),

@@ -145,7 +145,7 @@ class _PostSeedsState extends State<PostSeeds> {
                         Navigator.of(context)
                             .pushReplacementNamed(dashboardRoute);
                       },
-                      child: const Text("Salvar"))
+                      child: const Text("Cadastrar"))
                 ],
               ),
             );

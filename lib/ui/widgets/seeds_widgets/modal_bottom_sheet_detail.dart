@@ -163,7 +163,7 @@ class _SeedDetailState extends State<SeedDetail> {
                           Navigator.of(context)
                               .pushReplacementNamed(dashboardRoute);
                         },
-                        child: const Text("Salvar")),
+                        child: const Text("Atualizar")),
                   ],
                 ),
               ),
