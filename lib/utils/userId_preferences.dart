@@ -1,29 +1,25 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserIdPreferences {
-  final String _key = 'id';
+class UserPreferences {
+  final String _idKey = 'id';
 
   Future setExternalUserId(String id) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, id);
+    await prefs.setString(_idKey, id);
   }
 
   Future<String> getExternalUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_key)!;
+    return prefs.getString(_idKey)!;
   }
 
-  Future<bool> containsPreferencesKey() async {
+  Future<bool> containsIdKey() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey(_key)) {
-      return false;
-    } else {
-      return true;
-    }
+    return prefs.containsKey(_idKey);
   }
 
   Future prefsClear() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await prefs.remove(_idKey);
   }
 }

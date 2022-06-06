@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../routes.dart';
+import '../../../utils/routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../../blocs/seeds_bloc/seeds_state.dart';
 import '../../../blocs/seeds_bloc/seeds_event.dart';
@@ -40,9 +40,9 @@ class _PostSeedsState extends State<PostSeeds> {
   void _expiresInDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: _manufacturedAt!,
-      lastDate: DateTime.now(),
+      initialDate: _manufacturedAt!.add(const Duration(days: 1)),
+      firstDate: _manufacturedAt!.add(const Duration(days: 1)),
+      lastDate: DateTime(DateTime.now().year + 5),
     ).then((expiresInPickedDate) {
       if (expiresInPickedDate == null) {
         return;
@@ -59,12 +59,6 @@ class _PostSeedsState extends State<PostSeeds> {
   void initState() {
     super.initState();
     bloc = SeedsBloc();
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
   }
 
   @override
@@ -145,11 +139,17 @@ class _PostSeedsState extends State<PostSeeds> {
                         Navigator.of(context)
                             .pushReplacementNamed(dashboardRoute);
                       },
-                      child: const Text("Salvar"))
+                      child: const Text("Cadastrar"))
                 ],
               ),
             );
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
   }
 }

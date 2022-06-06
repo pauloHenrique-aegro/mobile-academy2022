@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
-import './routes.dart';
+import 'package:seeds_system/blocs/seeds_bloc/seeds_bloc.dart';
+import 'ui/screens/splash_screen.dart';
+import 'utils/routes.dart';
 import './blocs/auth_bloc/auth_bloc.dart';
 import './blocs/auth_bloc/auth_state.dart';
 import './ui/screens/auth_screen.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc(AuthLoginModeState()))
+        BlocProvider(create: (context) => AuthBloc(AuthLoginModeState())),
+        BlocProvider(create: (context) => SeedsBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -30,19 +32,18 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white,
             titleTextStyle: const TextStyle(
               fontSize: 26,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
         home: BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(AuthLoginModeState()),
-          child: const AuthPage(),
+          child: const SplashPage(),
         ),
         routes: {
           authScreenRoute: (ctx) => const AuthPage(),
           dashboardRoute: (ctx) => const DashboardPage(),
-          postSeedsRoute: (ctx) => const PostSeeds(),
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/repositories/user_repository.dart';
 import './auth_event.dart';
 import './auth_state.dart';
+import '../../utils/userId_preferences.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _repo = UserRepository();
@@ -10,10 +11,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SwitchAuthModeEvent>((event, emit) => emit(_switchAuthMode()));
 
     on<LoginButtonPressed>((event, emit) async {
+      if (await UserPreferences().containsIdKey()) {
+        await UserPreferences().prefsClear();
+      }
       emit(LoadingAuthState());
       try {
         await _repo.login(event.email);
-        emit(LoginSucessState());
+        emit(LoginSuccessState());
       } on Exception catch (e) {
         emit(AuthFailureState(e));
       }
@@ -23,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(LoadingAuthState());
       try {
         await _repo.signUp(event.fullName, event.email);
-        emit(SignUpSucessState());
+        emit(SignUpSuccessState());
       } on Exception catch (e) {
         emit(AuthFailureState(e));
       }
