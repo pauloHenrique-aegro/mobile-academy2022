@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../models/api_exception.dart';
+import '../exceptions.dart';
 import 'package:seeds_system/network/seeds_api_model.dart';
 
 class SeedApiService {
@@ -40,7 +40,7 @@ class SeedApiService {
     try {
       final response = await http.get(url).timeout(const Duration(seconds: 20),
           onTimeout: () => throw TimeExceeded());
-      ;
+
       final list = json.decode(response.body);
       final fetchedApiSeeds = List.generate(
           list.length, (index) => SeedsApiModel.fromJson(list[index]));

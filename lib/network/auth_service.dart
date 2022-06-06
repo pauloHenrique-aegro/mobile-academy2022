@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
-import '../models/api_exception.dart';
+import '../exceptions.dart';
 import '../utils/userId_preferences.dart';
 
 class AuthApiService {

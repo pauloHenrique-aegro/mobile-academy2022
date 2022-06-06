@@ -8,4 +8,9 @@ class TimeExceeded implements Exception {}
 
 class UnavailableServer implements Exception {}
 
-class GenericException implements Exception {}
+class DbException implements Exception {
+  @override
+  String toString() {
+    return 'Erro ao conectar com o banco de dados';
+  }
+}

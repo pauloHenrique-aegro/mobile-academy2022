@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds_system/blocs/seeds_bloc/seeds_bloc.dart';
 import 'ui/screens/splash_screen.dart';
-import './routes.dart';
+import 'utils/routes.dart';
 import './blocs/auth_bloc/auth_bloc.dart';
 import './blocs/auth_bloc/auth_state.dart';
 import './ui/screens/auth_screen.dart';

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds_system/database/seeds_database_model.dart';
-import 'package:seeds_system/models/api_exception.dart';
+import 'package:seeds_system/exceptions.dart';
 import 'package:seeds_system/ui/widgets/show_dialogs.dart';
-import '../../../routes.dart';
+import 'package:seeds_system/ui/widgets/show_snackbar.dart';
+import '../../../utils/routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../../blocs/seeds_bloc/seeds_state.dart';
 import '../../../blocs/seeds_bloc/seeds_event.dart';
@@ -34,6 +35,7 @@ class _SeedDetailState extends State<SeedDetail> {
   DateTime? _manufacturedAt;
   DateTime? _expiresIn;
   final applicationDateFormat = DateFormat('dd-MM-yyyy');
+  final dateFormat = DateFormat('yyyy-MM-dd');
 
   void _manufacturedAtDatePicker() {
     showDatePicker(
@@ -145,21 +147,35 @@ class _SeedDetailState extends State<SeedDetail> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          bloc.add(UpdateSeedEvent(SeedsDatabaseModel(
-                              id: widget.seed.id,
-                              name: nameController.text,
-                              manufacturer: manufacturerController.text,
-                              manufacturedAt: _manufacturedAt!.toString(),
-                              expiresIn: _manufacturedAt!.toString(),
-                              createdAt: widget.seed.createdAt,
-                              createdBy: widget.seed.createdBy,
-                              isSync: widget.seed.isSync)));
+                    BlocListener<SeedsBloc, SeedsStates>(
+                      listener: (context, state) async {
+                        if (state is SaveSeedsFailureState) {
+                          await showErrorDialog(
+                              context, state.exception.toString());
+                          await Future.delayed(const Duration(seconds: 1));
                           Navigator.of(context)
                               .pushReplacementNamed(dashboardRoute);
-                        },
-                        child: const Text("Atualizar")),
+                        }
+                      },
+                      child: ElevatedButton(
+                          onPressed: () {
+                            bloc.add(UpdateSeedEvent(SeedsDatabaseModel(
+                                id: widget.seed.id,
+                                name: nameController.text,
+                                manufacturer: manufacturerController.text,
+                                manufacturedAt: dateFormat
+                                    .format(_manufacturedAt!)
+                                    .toString(),
+                                expiresIn:
+                                    dateFormat.format(_expiresIn!).toString(),
+                                createdAt: widget.seed.createdAt,
+                                createdBy: widget.seed.createdBy,
+                                isSync: widget.seed.isSync)));
+                            Navigator.of(context)
+                                .pushReplacementNamed(dashboardRoute);
+                          },
+                          child: const Text("Atualizar")),
+                    ),
                   ],
                 ),
               ),
@@ -189,16 +205,25 @@ class _SeedDetailState extends State<SeedDetail> {
                         child: const Text("Sincronizar")),
                   ),
                 ),
-                SizedBox(
-                  width: screenSize.width * 0.5,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
-                      onPressed: () {
-                        bloc.add(DeleteSeedEvent(widget.seed));
-                        Navigator.of(context)
-                            .pushReplacementNamed(dashboardRoute);
-                      },
-                      child: const Text("Deletar")),
+                BlocListener<SeedsBloc, SeedsStates>(
+                  listener: (context, state) async {
+                    if (state is DeleteSeedsFailureState) {
+                      await showErrorDialog(
+                          context, state.exception.toString());
+                      await Future.delayed(const Duration(seconds: 1));
+                      Navigator.of(context)
+                          .pushReplacementNamed(dashboardRoute);
+                    }
+                  },
+                  child: SizedBox(
+                    width: screenSize.width * 0.5,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        onPressed: () {
+                          bloc.add(DeleteSeedEvent(widget.seed));
+                        },
+                        child: const Text("Deletar")),
+                  ),
                 ),
               ]),
             ]);
@@ -208,7 +233,6 @@ class _SeedDetailState extends State<SeedDetail> {
 
   @override
   void dispose() {
-    bloc.close();
     super.dispose();
   }
 }

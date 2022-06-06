@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:seeds_system/exceptions.dart';
 import '../seeds_bloc/seeds_event.dart';
 import '../seeds_bloc/seeds_state.dart';
 import '../../repositories/seeds_repository.dart';
@@ -15,9 +16,14 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
     });
 
     on<RegisterSeedEvent>((event, emit) async {
-      await _repo
-          .saveSeeds(event.seed)
-          .then((seeds) => emit(SomeSeedsState(seeds)));
+      try {
+        await _repo
+            .saveSeeds(event.seed)
+            .then((seeds) => emit(SomeSeedsState(seeds)));
+        emit(SaveSeedsSuccessState());
+      } on DbException catch (e) {
+        emit(SaveSeedsFailureState(e));
+      }
     });
 
     on<SyncSeedEvent>((event, emit) async {
@@ -43,15 +49,25 @@ class SeedsBloc extends Bloc<SeedsEvents, SeedsStates> {
     });
 
     on<UpdateSeedEvent>((event, emit) async {
-      await _repo
-          .updateSeed(event.seed)
-          .then((seeds) => emit(SomeSeedsState(seeds)));
+      try {
+        await _repo
+            .updateSeed(event.seed)
+            .then((seeds) => emit(SomeSeedsState(seeds)));
+        emit(UpdateSeedsSuccessState());
+      } on DbException catch (e) {
+        emit(UpdateSeedsFailureState(e));
+      }
     });
 
     on<DeleteSeedEvent>((event, emit) async {
-      await _repo
-          .deleteSeed(event.seed)
-          .then((seeds) => emit(SomeSeedsState(seeds)));
+      try {
+        await _repo
+            .deleteSeed(event.seed)
+            .then((seeds) => emit(SomeSeedsState(seeds)));
+        emit(DeleteSeedsSuccessState());
+      } on DbException catch (e) {
+        emit(DeleteSeedsFailureState(e));
+      }
     });
   }
 }

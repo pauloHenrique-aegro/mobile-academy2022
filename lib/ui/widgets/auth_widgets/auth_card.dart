@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/models/api_exception.dart';
-import 'package:seeds_system/routes.dart';
+import 'package:seeds_system/exceptions.dart';
+import 'package:seeds_system/ui/widgets/show_snackbar.dart';
+import 'package:seeds_system/utils/routes.dart';
 import 'package:seeds_system/validations/email_validation.dart';
 import '../../../blocs/auth_bloc/auth_event.dart';
 import '../show_dialogs.dart';
@@ -98,11 +99,8 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                                     : bloc.add(
                                         LoginButtonPressed(email: email.text));
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Email inválido'),
-                                        duration: Duration(seconds: 1),
-                                        backgroundColor: Colors.deepOrange));
+                                await showSnackCustomBar(
+                                    context, 'Email inválido!');
                               }
                             },
                           ),

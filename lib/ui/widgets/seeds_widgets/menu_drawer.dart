@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds_system/utils/custom_icons.dart';
 import 'package:seeds_system/ui/widgets/seeds_widgets/modal_bottom_sheet_form.dart';
-import '../../../routes.dart';
+import '../../../utils/routes.dart';
 import '../../../utils/userId_preferences.dart';
 import 'package:seeds_system/ui/widgets/seeds_widgets/show_modal_bottom.dart';
 
@@ -25,12 +25,6 @@ class MenuDrawerWidget extends StatelessWidget {
                       icon: CustomIcons.plantinha,
                       onClicked: () =>
                           showModalBottom(context, const PostSeeds())),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Sincronizar sementes',
-                    icon: Icons.sync,
-                    onClicked: () {},
-                  ),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'Logout',
