@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds_system/database/seeds_database_model.dart';
+import 'package:seeds_system/ui/widgets/show_error_dialog.dart';
 import '../../../routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../../blocs/seeds_bloc/seeds_state.dart';
@@ -172,9 +173,10 @@ class _SeedDetailState extends State<SeedDetail> {
                   width: screenSize.width * 0.5,
                   child: ElevatedButton(
                       onPressed: () {
-                        bloc.add(SyncSeedEvent(widget.seed));
-                        Navigator.of(context)
-                            .pushReplacementNamed(dashboardRoute);
+                        showAlertDialog(
+                            context,
+                            bloc.add(SyncSeedEvent(widget.seed)),
+                            dashboardRoute);
                       },
                       child: const Text("Sincronizar")),
                 ),

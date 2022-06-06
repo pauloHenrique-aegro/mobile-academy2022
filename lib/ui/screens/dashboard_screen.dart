@@ -101,7 +101,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                     children: <Widget>[
                                       Text(
                                         seedsList[index].name,
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(height: 10),
                                       Row(
@@ -137,9 +139,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Data de Fabricação:'),
+                                          const Text('Data de Vencimento:'),
                                           Text(
-                                            seedsList[index].manufacturedAt,
+                                            seedsList[index].expiresIn,
                                             style: const TextStyle(
                                                 decoration:
                                                     TextDecoration.underline,
@@ -152,7 +154,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ]),
                               ),
                               Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 width: double.infinity,
                                 color: Colors.green.shade200,
                                 alignment: Alignment.center,
