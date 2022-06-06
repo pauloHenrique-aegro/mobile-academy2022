@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:seeds_system/routes.dart';
+import 'package:seeds_system/utils/routes.dart';
 import 'package:seeds_system/utils/userId_preferences.dart';
 
 class SplashPage extends StatefulWidget {

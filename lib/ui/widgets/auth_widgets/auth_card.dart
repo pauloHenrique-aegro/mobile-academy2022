@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds_system/models/api_exception.dart';
-import 'package:seeds_system/routes.dart';
+import 'package:seeds_system/exceptions.dart';
+import 'package:seeds_system/ui/widgets/show_snackbar.dart';
+import 'package:seeds_system/utils/routes.dart';
 import 'package:seeds_system/validations/email_validation.dart';
 import '../../../blocs/auth_bloc/auth_event.dart';
 import '../show_dialogs.dart';
@@ -68,12 +69,15 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                             context, "Por favor, verifique os campos!");
                       } else if (state.exception is EmailInUse) {
                         await showErrorDialog(context, 'Email já cadastrado!');
-                      } else {
+                      } else if (state.exception is TimeExceeded) {
+                        await showErrorDialog(
+                            context, 'Tempo excedido. Tente novamente!');
+                      } else if (state.exception is UnavailableServer) {
                         await showErrorDialog(context,
-                            "Cheque sua conexão à internet ou tente novamente mais tarde!");
+                            'Servidor indisponível, tente novament mais tarde');
                       }
                     }
-                    if (state is LoginSucessState) {
+                    if (state is LoginSuccessState) {
                       Navigator.of(context)
                           .pushReplacementNamed(dashboardRoute);
                     }
@@ -95,11 +99,8 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                                     : bloc.add(
                                         LoginButtonPressed(email: email.text));
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Email inválido"),
-                                        duration: Duration(seconds: 1),
-                                        backgroundColor: Colors.deepOrange));
+                                await showSnackCustomBar(
+                                    context, 'Email inválido!');
                               }
                             },
                           ),

@@ -30,7 +30,7 @@ class SeedsApiModel {
     );
   }
 
-  factory SeedsApiModel.from(SeedsDatabaseModel seed) {
+  factory SeedsApiModel.fromDatabase(SeedsDatabaseModel seed) {
     return SeedsApiModel(
         id: seed.id,
         name: seed.name,

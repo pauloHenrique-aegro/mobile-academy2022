@@ -1,3 +1,5 @@
+import 'package:seeds_system/exceptions.dart';
+
 import '../../database/seeds_database_model.dart';
 
 class SeedsStates {
@@ -18,8 +20,17 @@ class SomeSeedsState extends SeedsStates {
   SomeSeedsState(List<SeedsDatabaseModel> seeds) : super(seeds);
 }
 
-class SyncSeedsSucessState extends SeedsStates {
-  SyncSeedsSucessState() : super([]);
+class SaveSeedsSuccessState extends SeedsStates {
+  SaveSeedsSuccessState() : super([]);
+}
+
+class SaveSeedsFailureState extends SeedsStates {
+  final Exception exception;
+  SaveSeedsFailureState(this.exception) : super([]);
+}
+
+class SyncSeedsSuccessState extends SeedsStates {
+  SyncSeedsSuccessState() : super([]);
 }
 
 class SyncSeedsFailureState extends SeedsStates {
@@ -30,4 +41,22 @@ class SyncSeedsFailureState extends SeedsStates {
 class GetSeedsFailureState extends SeedsStates {
   final Exception exception;
   GetSeedsFailureState(this.exception) : super([]);
+}
+
+class DeleteSeedsSuccessState extends SeedsStates {
+  DeleteSeedsSuccessState() : super([]);
+}
+
+class DeleteSeedsFailureState extends SeedsStates {
+  final DbException exception;
+  DeleteSeedsFailureState(this.exception) : super([]);
+}
+
+class UpdateSeedsSuccessState extends SeedsStates {
+  UpdateSeedsSuccessState() : super([]);
+}
+
+class UpdateSeedsFailureState extends SeedsStates {
+  final Exception exception;
+  UpdateSeedsFailureState(this.exception) : super([]);
 }

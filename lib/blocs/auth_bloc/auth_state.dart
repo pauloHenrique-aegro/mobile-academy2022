@@ -13,7 +13,7 @@ class AuthLoginModeState extends AuthState {}
 
 class LoadingAuthState extends AuthState {}
 
-class LoginSucessState extends AuthState {}
+class LoginSuccessState extends AuthState {}
 
 class AuthFailureState extends AuthState {
   final Exception exception;
@@ -21,4 +21,4 @@ class AuthFailureState extends AuthState {
   const AuthFailureState(this.exception);
 }
 
-class SignUpSucessState extends AuthState {}
+class SignUpSuccessState extends AuthState {}

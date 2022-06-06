@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../routes.dart';
+import '../../../utils/routes.dart';
 import '../../../blocs/seeds_bloc/seeds_bloc.dart';
 import '../../../blocs/seeds_bloc/seeds_state.dart';
 import '../../../blocs/seeds_bloc/seeds_event.dart';

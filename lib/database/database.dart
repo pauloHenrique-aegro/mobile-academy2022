@@ -2,6 +2,7 @@ import 'seeds_database_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../utils/userId_preferences.dart';
+import '../exceptions.dart';
 
 class SeedsDatabase {
   static Future<Database> database() async {
@@ -21,44 +22,72 @@ class SeedsDatabase {
   }
 
   static Future<int> registerSeed(SeedsDatabaseModel seed) async {
-    final db = await database();
-    return await db.insert("seeds", seed.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    try {
+      final db = await database();
+      return await db.insert("seeds", seed.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    } catch (error) {
+      throw DbException();
+    }
   }
 
   static Future<int> updateSeed(SeedsDatabaseModel seed) async {
-    final db = await database();
-    return await db.update("seeds", seed.toJson(),
-        where: 'id=?',
-        whereArgs: [seed.id],
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    try {
+      final db = await database();
+      return await db.update("seeds", seed.toJson(),
+          where: 'id=?',
+          whereArgs: [seed.id],
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    } catch (error) {
+      throw DbException();
+    }
   }
 
   static Future<int> deleteSeed(SeedsDatabaseModel seed) async {
-    final db = await database();
-    return await db.delete("seeds", where: 'id=?', whereArgs: [seed.id]);
+    try {
+      final db = await database();
+      return await db.delete("seeds", where: 'id=?', whereArgs: [seed.id]);
+    } catch (error) {
+      throw DbException();
+    }
   }
 
   static Future<List<SeedsDatabaseModel>> getAllSeeds() async {
-    final db = await database();
-    String userId = await UserPreferences().getExternalUserId();
-    final List<Map<String, dynamic>> list =
-        await db.query("seeds", where: 'createdBy = ?', whereArgs: [userId]);
-    return List.generate(
-        list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
+    try {
+      final db = await database();
+      String userId = await UserPreferences().getExternalUserId();
+      final List<Map<String, dynamic>> list =
+          await db.query("seeds", where: 'createdBy = ?', whereArgs: [userId]);
+      return List.generate(
+          list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
+    } catch (error) {
+      throw DbException();
+    }
   }
 
   static Future<void> updateSyncFlag({required SeedsDatabaseModel seed}) async {
-    final db = await database();
-    await db.rawUpdate('UPDATE seeds SET isSync = 1 WHERE id = "${seed.id}"');
+    try {
+      final db = await database();
+      await db.rawUpdate('UPDATE seeds SET isSync = 1 WHERE id = "${seed.id}"');
+    } catch (error) {
+      throw DbException();
+    }
   }
 
   static Future<List<SeedsDatabaseModel>> getSeedsByName(
       {required String name}) async {
-    final db = await database();
-    final List<Map<String, dynamic>> list =
-        await db.rawQuery("SELECT * FROM seeds WHERE name LIKE '$name%'");
-    return List.generate(
-        list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
+    try {
+      final db = await database();
+      String userId = await UserPreferences().getExternalUserId();
+      final List<Map<String, dynamic>> list = await db.query(
+        'seeds',
+        where: 'name LIKE ? and createdBy LIKE ?',
+        whereArgs: ['%$name%', userId],
+      );
+      return List.generate(
+          list.length, (index) => SeedsDatabaseModel.fromJson(list[index]));
+    } catch (error) {
+      throw DbException();
+    }
   }
 }

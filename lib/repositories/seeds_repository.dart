@@ -33,7 +33,7 @@ class SeedsRepository {
   }
 
   syncSeeds(SeedsDatabaseModel seed) async {
-    await SeedApiService.postSeeds(SeedsApiModel.from(seed));
+    await SeedApiService.postSeeds(SeedsApiModel.fromDatabase(seed));
   }
 
   saveSeedsFromApi() async {

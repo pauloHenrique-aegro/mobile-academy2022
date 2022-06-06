@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import '../exceptions.dart';
 import 'package:seeds_system/network/seeds_api_model.dart';
 
 class SeedApiService {
@@ -22,7 +22,12 @@ class SeedApiService {
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
-          });
+          }).timeout(const Duration(seconds: 20),
+          onTimeout: () => throw TimeExceeded());
+      var code = response.statusCode;
+      if (code == 503) {
+        throw UnavailableServer();
+      }
     } catch (error) {
       rethrow;
     }
@@ -33,10 +38,16 @@ class SeedApiService {
         'https://learning-data-sync-mobile.herokuapp.com/datasync/api/seed/$userId');
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(url).timeout(const Duration(seconds: 20),
+          onTimeout: () => throw TimeExceeded());
+
       final list = json.decode(response.body);
       final fetchedApiSeeds = List.generate(
           list.length, (index) => SeedsApiModel.fromJson(list[index]));
+      var code = response.statusCode;
+      if (code == 503) {
+        throw UnavailableServer();
+      }
       return fetchedApiSeeds;
     } catch (error) {
       rethrow;
