@@ -17,11 +17,12 @@ Future<void> showErrorDialog(BuildContext context, String errorMessage) {
   );
 }
 
-Future<void> showAlertDialog(BuildContext context, void action, String route) {
+Future<void> showAlertDialog(
+    BuildContext context, void action /*, String route*/) {
   return showDialog(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('ATENÇAÕ!'),
+      title: const Text('ATENÇÃO!'),
       content: const Text(
           'Este dado não poderá mais ser exlcuído ou alterado neste dispositivo. Deseja continuar?'),
       actions: <Widget>[
@@ -29,7 +30,7 @@ Future<void> showAlertDialog(BuildContext context, void action, String route) {
             onPressed: () {
               action;
               Navigator.of(ctx).pop();
-              Navigator.of(context).pushReplacementNamed(route);
+              //Navigator.of(context).pushReplacementNamed(route);
             },
             child: const Text('OK')),
         TextButton(

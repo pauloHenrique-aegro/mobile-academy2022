@@ -69,7 +69,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                         await showErrorDialog(context, 'Email já cadastrado!');
                       } else {
                         await showErrorDialog(context,
-                            "Ocorreu um erro. Tente novamente mais tarde!");
+                            "Cheque sua conexão à internet ou tente novamente mais tarde!");
                       }
                     }
                     if (state is LoginSucessState) {

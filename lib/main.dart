@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds_system/blocs/seeds_bloc/seeds_bloc.dart';
 import 'ui/screens/splash_screen.dart';
 import './routes.dart';
 import './blocs/auth_bloc/auth_bloc.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc(AuthLoginModeState()))
+        BlocProvider(create: (context) => AuthBloc(AuthLoginModeState())),
+        BlocProvider(create: (context) => SeedsBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -30,11 +30,6 @@ class SeedApiService {
             "content-type": "application/json",
             "accept": "application/json",
           });
-
-      var code = response.statusCode;
-      if (code == 500) {
-        //Todo: handling error
-      }
     } catch (error) {
       rethrow;
     }
@@ -50,12 +45,6 @@ class SeedApiService {
       final fetchedApiSeeds = List.generate(
           list.length, (index) => SeedsApiModel.fromJson(list[index]));
       return fetchedApiSeeds;
-
-      /*if (code == 404) {
-      throw UserNotFound();
-    } else if (code == 500) {
-      
-    }*/
     } catch (error) {
       rethrow;
     }
